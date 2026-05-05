@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Space-separated RGB channels for Tailwind `rgb(var(--x) / <alpha-value>)` */
+:root {
+  color-scheme: light;
+  --un-fg: 26 26 26;
+  --un-secondary: 74 85 104;
+  --un-tertiary: 113 128 150;
+  --un-surface: 255 255 255;
+  --un-canvas: 247 249 252;
+  --un-border: 226 232 240;
+  --un-wash: 232 241 251;
+  --un-deep: 13 74 122;
+  --un-navy: 26 54 93;
+  --un-shadow: 0 1px 2px rgba(26, 26, 26, 0.06);
+}
+
+html.dark {
+  color-scheme: dark;
+  --un-fg: 232 237 244;
+  --un-secondary: 168 184 204;
+  --un-tertiary: 125 143 163;
+  --un-surface: 21 34 50;
+  --un-canvas: 11 18 32;
+  --un-border: 42 58 79;
+  --un-wash: 26 47 74;
+  --un-deep: 99 164 232;
+  --un-navy: 207 228 252;
+  --un-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
 html,
 body,
 #root {
@@ -15,7 +44,6 @@ body {
   line-height: 1.45;
 }
 
-/* Corporate table density (UN-style briefing tables) */
 @layer components {
   .un-table-shell {
     @apply overflow-auto rounded-md border border-un-border bg-un-surface;

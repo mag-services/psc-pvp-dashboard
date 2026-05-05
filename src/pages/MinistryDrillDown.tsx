@@ -7,6 +7,7 @@ import {
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect, useMemo, useState } from 'react';
+import { useTheme } from '../theme/ThemeProvider';
 import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
 import { deptStatusMatrix, postsByDepartment, topSalaryScales } from '../lib/data';
@@ -18,6 +19,7 @@ type Props = { rows: VacancyRow[] };
 const colHelper = createColumnHelper<VacancyRow>();
 
 export function MinistryDrillDown({ rows }: Props) {
+  const { theme } = useTheme();
   const ministries = useMemo(
     () => [...new Set(rows.map((r) => r.ministry))].sort(),
     [rows],
@@ -54,7 +56,7 @@ export function MinistryDrillDown({ rows }: Props) {
       xAxis: { categories: deptCounts.map((d) => d.department), labels: { rotation: -35 } },
       yAxis: { min: 0, title: { text: 'Post count' }, allowDecimals: false },
       legend: { enabled: false },
-      plotOptions: { column: { borderRadius: 2, color: '#185FA5' as Highcharts.ColorString } },
+      plotOptions: { column: { borderRadius: 0, borderWidth: 0, color: '#185FA5' as Highcharts.ColorString } },
       series: [{ type: 'column', name: 'Posts', data: deptCounts.map((d) => d.count) }],
       tooltip: { pointFormat: '<b>{point.y}</b> posts' },
     }),
@@ -68,7 +70,7 @@ export function MinistryDrillDown({ rows }: Props) {
       xAxis: { categories: scaleTop.map((s) => s.scale), labels: { rotation: -35 } },
       yAxis: { min: 0, title: { text: 'Post count' }, allowDecimals: false },
       legend: { enabled: false },
-      plotOptions: { column: { borderRadius: 2, color: '#378ADD' as Highcharts.ColorString } },
+      plotOptions: { column: { borderRadius: 0, borderWidth: 0, color: '#378ADD' as Highcharts.ColorString } },
       series: [{ type: 'column', name: 'Posts', data: scaleTop.map((s) => s.count) }],
       tooltip: { pointFormat: '<b>{point.y}</b> posts' },
     }),
@@ -92,22 +94,22 @@ export function MinistryDrillDown({ rows }: Props) {
   });
 
   if (!ministries.length) {
-    return <p className="text-sm text-slate-600">No rows loaded.</p>;
+    return <p className="text-[13px] text-un-secondary">No rows loaded.</p>;
   }
 
   return (
     <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Ministry drill-down</h1>
-          <p className="mt-1 max-w-2xl text-sm text-slate-600">
+          <h1 className="text-[22px] font-bold tracking-tight text-un-fg">Ministry drill-down</h1>
+          <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-un-secondary">
             Focus on departments, salary scales, and highest-cost posts within a ministry.
           </p>
         </div>
-        <label className="flex flex-col gap-1 text-xs font-semibold uppercase text-slate-500">
-          Ministry
+        <label className="flex flex-col gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-un-tertiary">
+          Ministry filter
           <select
-            className="min-w-[220px] rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-normal text-slate-900 shadow-sm outline-none ring-accent focus:border-primary focus:ring-2"
+            className="min-w-[220px] rounded-sm border border-un-border bg-un-surface px-3 py-2 text-[13px] font-normal text-un-fg shadow-un outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             value={selectedMinistry}
             onChange={(e) => setMinistry(e.target.value)}
           >
@@ -135,21 +137,21 @@ export function MinistryDrillDown({ rows }: Props) {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel title="">
-          <HighchartsReact highcharts={Highcharts} options={deptChart} />
+          <HighchartsReact key={theme} highcharts={Highcharts} options={deptChart} />
         </Panel>
         <Panel title="">
-          <HighchartsReact highcharts={Highcharts} options={scaleChart} />
+          <HighchartsReact key={theme} highcharts={Highcharts} options={scaleChart} />
         </Panel>
       </div>
 
       <Panel title="Top 20 posts by annual salary">
-        <div className="overflow-auto rounded-lg border border-slate-100">
-          <table className="min-w-full text-left text-sm">
-            <thead className="bg-slate-100 text-xs font-semibold uppercase text-slate-600">
+        <div className="un-table-shell">
+          <table className="min-w-full text-left text-[13px]">
+            <thead className="un-thead">
               {table.getHeaderGroups().map((hg) => (
                 <tr key={hg.id}>
                   {hg.headers.map((h) => (
-                    <th key={h.id} className="px-3 py-2">
+                    <th key={h.id} className="px-3 py-2 font-semibold normal-case tracking-normal text-un-secondary">
                       {flexRender(h.column.columnDef.header, h.getContext())}
                     </th>
                   ))}
@@ -158,9 +160,9 @@ export function MinistryDrillDown({ rows }: Props) {
             </thead>
             <tbody>
               {table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="border-t border-slate-100">
+                <tr key={row.id} className="un-trow">
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-3 py-2">
+                    <td key={cell.id} className="px-3 py-2 text-un-fg">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -172,13 +174,13 @@ export function MinistryDrillDown({ rows }: Props) {
       </Panel>
 
       <Panel title="Recruitment status by department">
-        <div className="max-h-[420px] overflow-auto rounded-lg border border-slate-100">
-          <table className="min-w-full border-collapse text-left text-sm">
-            <thead className="sticky top-0 z-10 bg-slate-100 text-xs font-semibold uppercase text-slate-600">
+        <div className="max-h-[420px] un-table-shell">
+          <table className="min-w-full border-collapse text-left text-[13px]">
+            <thead className="un-thead">
               <tr>
-                <th className="px-2 py-2">Department</th>
+                <th className="px-2 py-2.5 font-semibold normal-case tracking-normal text-un-secondary">Department</th>
                 {matrix.statuses.map((s) => (
-                  <th key={s} className="px-2 py-2 text-right">
+                  <th key={s} className="px-2 py-2.5 text-right font-semibold normal-case tracking-normal text-un-secondary">
                     {s}
                   </th>
                 ))}
@@ -186,10 +188,10 @@ export function MinistryDrillDown({ rows }: Props) {
             </thead>
             <tbody>
               {matrix.depts.map((d) => (
-                <tr key={d} className="border-t border-slate-100">
-                  <td className="px-2 py-2 font-medium text-slate-800">{d || '—'}</td>
+                <tr key={d} className="un-trow">
+                  <td className="px-2 py-2 font-semibold text-un-fg">{d || '—'}</td>
                   {matrix.statuses.map((s) => (
-                    <td key={s} className="px-2 py-2 text-right tabular-nums text-slate-700">
+                    <td key={s} className="px-2 py-2 text-right tabular-nums text-un-secondary">
                       {matrix.cell(d, s) || ''}
                     </td>
                   ))}

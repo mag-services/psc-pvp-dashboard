@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { ThemeToggle } from './components/ThemeToggle';
 import { loadVacancyRows } from './lib/data';
 import type { PageId, VacancyRow } from './lib/types';
 import { ExecutiveOverview } from './pages/ExecutiveOverview';
@@ -51,7 +52,7 @@ export default function App() {
                 onClick={() => setPage(item.id)}
                 className={`whitespace-nowrap rounded-sm px-3 py-2.5 text-left text-[13px] font-semibold leading-snug transition-colors md:py-2 ${
                   page === item.id
-                    ? 'bg-un-wash text-un-navy ring-1 ring-inset ring-primary/25'
+                    ? 'bg-un-wash text-un-navy ring-1 ring-inset ring-primary/25 dark:ring-primary/40'
                     : 'text-un-secondary hover:bg-un-canvas hover:text-un-fg'
                 }`}
               >
@@ -60,9 +61,7 @@ export default function App() {
             ))}
           </nav>
 
-          <div className="mt-auto hidden border-t border-un-border px-4 py-3 text-[10px] leading-relaxed text-un-tertiary md:block">
-            <p>Corporate brief — Executive UN colour system (Arial, neutral greys, institutional blue).</p>
-          </div>
+          <ThemeToggle />
         </aside>
 
         <main className="min-w-0 flex-1 overflow-auto p-4 md:p-8">

@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-/** UN “Executive” corporate palette (aligned with Power BI Executive UN theme) */
+/**
+ * UN palette via CSS variables.
+ * Use `rgb(var(--un-*) / <alpha-value>)` so Tailwind does NOT bake in light-mode colours at build time.
+ */
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -8,22 +12,22 @@ export default {
         primary: '#185FA5',
         accent: '#378ADD',
         un: {
-          fg: '#1A1A1A',
-          secondary: '#4A5568',
-          tertiary: '#718096',
-          surface: '#FFFFFF',
-          canvas: '#F7F9FC',
-          border: '#E2E8F0',
-          wash: '#E8F1FB',
-          deep: '#0D4A7A',
-          navy: '#1A365D',
+          fg: 'rgb(var(--un-fg) / <alpha-value>)',
+          secondary: 'rgb(var(--un-secondary) / <alpha-value>)',
+          tertiary: 'rgb(var(--un-tertiary) / <alpha-value>)',
+          surface: 'rgb(var(--un-surface) / <alpha-value>)',
+          canvas: 'rgb(var(--un-canvas) / <alpha-value>)',
+          border: 'rgb(var(--un-border) / <alpha-value>)',
+          wash: 'rgb(var(--un-wash) / <alpha-value>)',
+          deep: 'rgb(var(--un-deep) / <alpha-value>)',
+          navy: 'rgb(var(--un-navy) / <alpha-value>)',
         },
       },
       fontFamily: {
         sans: ['Arial', 'Helvetica', 'sans-serif'],
       },
       boxShadow: {
-        un: '0 1px 2px rgba(26, 26, 26, 0.04)',
+        un: 'var(--un-shadow)',
       },
     },
   },

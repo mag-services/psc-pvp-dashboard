@@ -1,6 +1,7 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Fragment, useMemo } from 'react';
+import { useTheme } from '../theme/ThemeProvider';
 import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
 import {
@@ -15,6 +16,7 @@ import type { VacancyRow } from '../lib/types';
 type Props = { rows: VacancyRow[] };
 
 export function ExecutiveOverview({ rows }: Props) {
+  const { theme } = useTheme();
   const totalPosts = rows.length;
   const totalSalary = sum(rows, (r) => r.annualSalary);
   const activeRecruitment = countActiveRecruitment(rows);
@@ -115,10 +117,10 @@ export function ExecutiveOverview({ rows }: Props) {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Panel title="">
-          <HighchartsReact highcharts={Highcharts} options={postsChartOpts} />
+          <HighchartsReact key={theme} highcharts={Highcharts} options={postsChartOpts} />
         </Panel>
         <Panel title="">
-          <HighchartsReact highcharts={Highcharts} options={salaryChartOpts} />
+          <HighchartsReact key={theme} highcharts={Highcharts} options={salaryChartOpts} />
         </Panel>
       </div>
 
