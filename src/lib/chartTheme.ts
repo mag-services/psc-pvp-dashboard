@@ -2,6 +2,9 @@ import Highcharts from 'highcharts';
 
 const FONT = 'Montserrat, ui-sans-serif, system-ui, sans-serif';
 
+/** Re-export for page-level chart options that set `fontFamily` explicitly. */
+export const CHART_FONT = FONT;
+
 /** Executive UN dataColours */
 const palette = ['#185FA5', '#378ADD', '#5BA3E8', '#0D4A7A', '#88B8E6', '#2C5282', '#A8C8EF', '#1A365D'] as const;
 
@@ -138,6 +141,16 @@ const dark: Highcharts.Options = {
 };
 
 export type ChartThemeMode = 'light' | 'dark';
+
+/** Muted text for chart subtitles, data labels, and inline chart copy — matches theme tokens. */
+export function chartMutedLabelColor(mode: ChartThemeMode): string {
+  return mode === 'dark' ? '#A8B8CC' : '#4A5568';
+}
+
+/** Secondary bar colour (e.g. backlog) — readable in light and dark UI. */
+export function chartSecondaryBarColor(mode: ChartThemeMode): string {
+  return mode === 'dark' ? '#9CA3B8' : '#718096';
+}
 
 export function applyChartTheme(mode: ChartThemeMode): void {
   Highcharts.setOptions(mode === 'dark' ? dark : light);

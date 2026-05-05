@@ -151,7 +151,12 @@ export function MinistryDrillDown({ rows }: Props) {
               {table.getHeaderGroups().map((hg) => (
                 <tr key={hg.id}>
                   {hg.headers.map((h) => (
-                    <th key={h.id} className="px-3 py-2 font-semibold normal-case tracking-normal text-un-secondary">
+                    <th
+                      key={h.id}
+                      className={`px-3 py-2 font-semibold normal-case tracking-normal text-un-secondary ${
+                        h.column.id === 'annualSalary' ? 'text-right' : ''
+                      }`}
+                    >
                       {flexRender(h.column.columnDef.header, h.getContext())}
                     </th>
                   ))}
@@ -162,7 +167,10 @@ export function MinistryDrillDown({ rows }: Props) {
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id} className="un-trow">
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-3 py-2 text-un-fg">
+                    <td
+                      key={cell.id}
+                      className={`px-3 py-2 text-un-fg ${cell.column.id === 'annualSalary' ? 'text-right tabular-nums' : ''}`}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}
@@ -176,6 +184,10 @@ export function MinistryDrillDown({ rows }: Props) {
       <Panel title="Recruitment status by department">
         <div className="max-h-[420px] un-table-shell">
           <table className="min-w-full border-collapse text-left text-[13px]">
+            <caption className="border-b border-un-border px-2 py-2 text-left text-[11px] font-normal leading-snug text-un-secondary">
+              Cell values are counts of vacant posts. Zero means no posts in that recruitment status for the
+              department.
+            </caption>
             <thead className="un-thead">
               <tr>
                 <th className="px-2 py-2.5 font-semibold normal-case tracking-normal text-un-secondary">Department</th>
@@ -192,7 +204,7 @@ export function MinistryDrillDown({ rows }: Props) {
                   <td className="px-2 py-2 font-semibold text-un-fg">{d || '—'}</td>
                   {matrix.statuses.map((s) => (
                     <td key={s} className="px-2 py-2 text-right tabular-nums text-un-secondary">
-                      {matrix.cell(d, s) || ''}
+                      {matrix.cell(d, s)}
                     </td>
                   ))}
                 </tr>

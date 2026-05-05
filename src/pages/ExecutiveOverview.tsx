@@ -1,6 +1,6 @@
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
 import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
@@ -9,11 +9,32 @@ import {
   deptSummary,
   ministryAggregates,
   sum,
+  type DeptSummary,
 } from '../lib/data';
 import { formatInt, formatVuv, formatVuvMillions } from '../lib/format';
 import type { VacancyRow } from '../lib/types';
 
 type Props = { rows: VacancyRow[] };
+
+type ExecSortKey = 'ministry' | 'department' | 'posts' | 'salary';
+
+function cmpStr(a: string, b: string, dir: 'asc' | 'desc') {
+  const c = a.localeCompare(b);
+  return dir === 'asc' ? c : -c;
+}
+
+function cmpNum(a: number, b: number, dir: 'asc' | 'desc') {
+  return dir === 'asc' ? a - b : b - a;
+}
+
+function sortDeptsNatural(a: DeptSummary, b: DeptSummary) {
+  return b.salary - a.salary || a.department.localeCompare(b.department);
+}
+
+function ariaSort(active: boolean, dir: 'asc' | 'desc'): 'none' | 'ascending' | 'descending' | 'other' {
+  if (!active) return 'none';
+  return dir === 'asc' ? 'ascending' : 'descending';
+}
 
 export function ExecutiveOverview({ rows }: Props) {
   const { theme } = useTheme();
@@ -23,6 +44,14 @@ export function ExecutiveOverview({ rows }: Props) {
   const byMinPosts = ministryAggregates(rows);
   const byMinSalary = useMemo(() => [...byMinPosts].sort((a, b) => b.salary - a.salary), [byMinPosts]);
   const summary = deptSummary(rows);
+
+  const [execSort, setExecSort] = useState<{ key: ExecSortKey; dir: 'asc' | 'desc' }>({
+    key: 'ministry',
+    dir: 'asc',
+  });
+
+  const bumpSort = (key: ExecSortKey) =>
+    setExecSort((s) => (s.key === key ? { key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: 'asc' }));
 
   const postsChartOpts = useMemo(
     (): Highcharts.Options => ({
@@ -82,14 +111,37 @@ export function ExecutiveOverview({ rows }: Props) {
   );
 
   const grouped = useMemo(() => {
-    const map = new Map<string, typeof summary>();
+    const map = new Map<string, DeptSummary[]>();
     for (const r of summary) {
       const list = map.get(r.ministry) ?? [];
       list.push(r);
       map.set(r.ministry, list);
     }
-    return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-  }, [summary]);
+
+    let entries = [...map.entries()];
+    if (execSort.key === 'ministry') {
+      entries.sort(([a], [b]) => cmpStr(a, b, execSort.dir));
+    } else {
+      entries.sort(([a], [b]) => a.localeCompare(b));
+    }
+
+    for (const [, depts] of entries) {
+      if (execSort.key === 'ministry') {
+        depts.sort(sortDeptsNatural);
+      } else if (execSort.key === 'department') {
+        depts.sort((a, b) => cmpStr(a.department, b.department, execSort.dir));
+      } else if (execSort.key === 'posts') {
+        depts.sort((a, b) => cmpNum(a.posts, b.posts, execSort.dir));
+      } else {
+        depts.sort((a, b) => cmpNum(a.salary, b.salary, execSort.dir));
+      }
+    }
+
+    return entries;
+  }, [summary, execSort]);
+
+  const headerBtn =
+    'w-full rounded-sm px-0 py-0 text-left font-semibold normal-case tracking-normal text-un-secondary underline-offset-2 hover:text-un-fg hover:underline focus:outline-none focus-visible:ring-1 focus-visible:ring-primary';
 
   return (
     <div className="space-y-6">
@@ -127,13 +179,48 @@ export function ExecutiveOverview({ rows }: Props) {
       <Panel title="Posts summary — ministry and department">
         <div className="max-h-[480px] un-table-shell">
           <table className="min-w-full border-collapse text-left text-[13px]">
-            <thead className="un-thead">
+            <caption className="border-b border-un-border px-3 py-2.5 text-left text-[11px] font-normal leading-snug text-un-secondary">
+              Click a column heading to sort. Rows are grouped by ministry; zeros are explicit in cross-tab matrices
+              elsewhere in this dashboard.
+            </caption>
+            <thead className="sticky top-0 z-10 border-b border-un-border bg-un-canvas text-left text-[13px] font-semibold normal-case tracking-normal text-un-secondary">
               <tr>
-                <th className="px-3 py-2.5 font-semibold normal-case tracking-normal text-un-secondary">Ministry</th>
-                <th className="px-3 py-2.5 font-semibold normal-case tracking-normal text-un-secondary">Department</th>
-                <th className="px-3 py-2.5 text-right font-semibold normal-case tracking-normal text-un-secondary">Posts</th>
-                <th className="px-3 py-2.5 text-right font-semibold normal-case tracking-normal text-un-secondary">
-                  Annual salary (VUV)
+                <th scope="col" className="px-3 py-2.5" aria-sort={ariaSort(execSort.key === 'ministry', execSort.dir)}>
+                  <button type="button" className={headerBtn} onClick={() => bumpSort('ministry')}>
+                    Ministry {execSort.key === 'ministry' ? (execSort.dir === 'asc' ? '▲' : '▼') : ''}
+                  </button>
+                </th>
+                <th
+                  scope="col"
+                  className="px-3 py-2.5"
+                  aria-sort={ariaSort(execSort.key === 'department', execSort.dir)}
+                >
+                  <button type="button" className={headerBtn} onClick={() => bumpSort('department')}>
+                    Department {execSort.key === 'department' ? (execSort.dir === 'asc' ? '▲' : '▼') : ''}
+                  </button>
+                </th>
+                <th
+                  scope="col"
+                  className="px-3 py-2.5 text-right"
+                  aria-sort={ariaSort(execSort.key === 'posts', execSort.dir)}
+                >
+                  <button type="button" className={`${headerBtn} w-full text-right`} onClick={() => bumpSort('posts')}>
+                    Posts {execSort.key === 'posts' ? (execSort.dir === 'asc' ? '▲' : '▼') : ''}
+                  </button>
+                </th>
+                <th
+                  scope="col"
+                  className="px-3 py-2.5 text-right"
+                  aria-sort={ariaSort(execSort.key === 'salary', execSort.dir)}
+                >
+                  <button
+                    type="button"
+                    className={`${headerBtn} w-full text-right`}
+                    onClick={() => bumpSort('salary')}
+                  >
+                    Annual salary (VUV){' '}
+                    {execSort.key === 'salary' ? (execSort.dir === 'asc' ? '▲' : '▼') : ''}
+                  </button>
                 </th>
               </tr>
             </thead>
@@ -141,13 +228,13 @@ export function ExecutiveOverview({ rows }: Props) {
               {grouped.map(([ministry, depts]) => (
                 <Fragment key={ministry}>
                   <tr className="bg-un-canvas">
-                    <td colSpan={4} className="px-3 py-2 text-[12px] font-bold text-primary">
+                    <td colSpan={4} className="px-3 py-2 text-[12px] font-semibold text-primary">
                       {ministry}
                     </td>
                   </tr>
                   {depts.map((d) => (
                     <tr key={`${ministry}__${d.department}`} className="un-trow">
-                      <td className="px-3 py-2 text-un-tertiary"> </td>
+                      <td aria-hidden="true" className="min-w-[1rem] px-3 py-2" />
                       <td className="px-3 py-2 text-un-fg">{d.department || '—'}</td>
                       <td className="px-3 py-2 text-right tabular-nums">{formatInt(d.posts)}</td>
                       <td className="px-3 py-2 text-right tabular-nums">{formatVuv(d.salary)}</td>

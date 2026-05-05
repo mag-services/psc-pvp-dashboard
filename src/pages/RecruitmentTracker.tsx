@@ -2,6 +2,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useMemo } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
+import { CHART_FONT, chartMutedLabelColor, chartSecondaryBarColor } from '../lib/chartTheme';
 import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
 import { ministryStatusMatrix, statusCounts, sum } from '../lib/data';
@@ -23,13 +24,15 @@ export function RecruitmentTracker({ rows }: Props) {
 
   const notStartedShare = rows.length ? notStartedRows.length / rows.length : 0;
 
-  const statusChart = useMemo(
-    (): Highcharts.Options => ({
+  const statusChart = useMemo((): Highcharts.Options => {
+    const muted = chartMutedLabelColor(theme);
+    const secondaryBar = chartSecondaryBarColor(theme);
+    return {
       chart: { type: 'bar', height: 320 },
       title: { text: 'Recruitment status pipeline' },
       subtitle: {
         text: `${(notStartedShare * 100).toFixed(1)}% of posts are still "Not Started". Data labels summarise each segment.`,
-        style: { fontSize: '11px', color: '#4A5568' },
+        style: { fontSize: '11px', color: muted },
       },
       xAxis: {
         categories: breakdown.map((d) => d.status),
@@ -50,8 +53,8 @@ export function RecruitmentTracker({ rows }: Props) {
             style: {
               fontSize: '10px',
               fontWeight: '500',
-              color: '#4A5568',
-              fontFamily: 'Montserrat, sans-serif',
+              color: muted,
+              fontFamily: CHART_FONT,
             },
           },
         },
@@ -62,40 +65,38 @@ export function RecruitmentTracker({ rows }: Props) {
           name: 'Posts',
           data: breakdown.map((d) => ({
             y: d.count,
-            color: d.status === 'Not Started' ? ('#718096' as Highcharts.ColorString) : ('#185FA5' as Highcharts.ColorString),
+            color:
+              d.status === 'Not Started'
+                ? (secondaryBar as Highcharts.ColorString)
+                : ('#185FA5' as Highcharts.ColorString),
           })),
         },
       ],
       tooltip: { pointFormat: '<b>{point.y}</b> posts' },
-    }),
-    [breakdown, notStartedShare],
-  );
+    };
+  }, [breakdown, notStartedShare, theme]);
 
   return (
     <div className="space-y-6">
       <header className="un-page-header">
         <h1 className="text-[21px] font-semibold tracking-tight text-un-fg">Recruitment tracker</h1>
         <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-un-secondary">
-          Pipeline status, cost still sitting in “Not Started”, and the small set of posts where recruitment has
-          moved forward.
+          Pipeline status, cost still sitting in “Not Started”, and the small set of posts where recruitment has moved
+          forward.
         </p>
       </header>
 
       <div className="rounded-md border border-un-border border-l-4 border-l-accent bg-un-wash p-4 shadow-un-sm dark:bg-un-wash/70">
-          <p className="text-[12px] font-semibold uppercase tracking-wide text-un-fg">Methodological note</p>
-          <p className="mt-2 text-[12px] font-normal leading-relaxed text-un-secondary">
-            Almost all vacancies default to <strong className="font-semibold text-un-fg">Not Started</strong> (
-            {formatInt(notStartedRows.length)} of {formatInt(rows.length)}). Smaller categories are shown with on-bar
-            counts; read against the dominant backlog category.
-          </p>
+        <p className="text-[12px] font-semibold uppercase tracking-wide text-un-fg">Methodological note</p>
+        <p className="mt-2 text-[12px] font-normal leading-relaxed text-un-secondary">
+          Almost all vacancies default to <strong className="font-semibold text-un-fg">Not Started</strong> (
+          {formatInt(notStartedRows.length)} of {formatInt(rows.length)}). Smaller categories are shown with on-bar
+          counts; read against the dominant backlog category.
+        </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <KpiCard
-          label="Posts — Not Started"
-          value={formatInt(notStartedRows.length)}
-          hint="Default / pipeline backlog"
-        />
+        <KpiCard label="Posts — Not Started" value={formatInt(notStartedRows.length)} hint="Default / pipeline backlog" />
         <KpiCard
           label="Total cost — Not Started posts"
           value={formatVuv(pipelineCost)}
@@ -127,8 +128,11 @@ export function RecruitmentTracker({ rows }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {activeRows.map((r, i) => (
-                  <tr key={`${r.ministry}-${r.postNumber}-${i}`} className="un-trow">
+                {activeRows.map((r) => (
+                  <tr
+                    key={`${r.ministry}|${r.department}|${r.postNumber}|${r.priorityVacantPosts}|${r.recruitmentStatus}`}
+                    className="un-trow"
+                  >
                     <td className="px-2 py-2 font-medium text-un-fg">{r.ministry}</td>
                     <td className="px-2 py-2 text-un-secondary">{r.department || '—'}</td>
                     <td className="px-2 py-2 text-un-secondary">{r.priorityVacantPosts}</td>
@@ -148,6 +152,9 @@ export function RecruitmentTracker({ rows }: Props) {
       <Panel title="Ministry × recruitment status (post counts)">
         <div className="max-h-[480px] un-table-shell">
           <table className="min-w-full border-collapse text-left text-[13px]">
+            <caption className="border-b border-un-border px-2 py-2 text-left text-[11px] font-normal leading-snug text-un-secondary">
+              Cell values are counts of vacant posts. Zero means no posts with that recruitment status for the ministry.
+            </caption>
             <thead className="un-thead">
               <tr>
                 <th className="px-2 py-2 font-semibold normal-case tracking-normal text-un-secondary">Ministry</th>
@@ -164,7 +171,7 @@ export function RecruitmentTracker({ rows }: Props) {
                   <td className="px-2 py-2 font-semibold text-un-fg">{m}</td>
                   {matrix.statuses.map((s) => (
                     <td key={s} className="px-2 py-2 text-right tabular-nums text-un-secondary">
-                      {matrix.cell(m, s) || ''}
+                      {matrix.cell(m, s)}
                     </td>
                   ))}
                 </tr>
