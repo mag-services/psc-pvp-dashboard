@@ -72,9 +72,9 @@ MALFB,DARD ,Principal Policy and Planning Officer ,7807.0,PSS 6.1 ,2577000,Unkno
 MALFB,DARD ,Senior Data & Monitoring Officer ,7830.0,PSS 5.1 ,1989000,Unknown Status
 MALFB,DARD ,Senior Agriculture Economist ,7831.0,PSS 5.1 ,1989000,Unknown Status
 MALFB,DARD ,Permit Officer ,7875.0,PSS 4.1 ,1400000,Unknown Status
-MFAICET,Foreign Affairs ,Senior Desk Officer ,,PsS 5.1,1989000,Unknown Status
-MFAICET,Foreign Affairs ,Senior Desk Officer ,,PsS 5.1,1989000,Unknown Status
-MFAICET,Foreign Affairs ,Desk Officer ,,PsS 4.1,1400000,Unknown Status
+MFAICET,Foreign Affairs ,Senior Desk Officer ,,PsS 5.1,1989000,Recruitment Process
+MFAICET,Foreign Affairs ,Senior Desk Officer ,,PsS 5.1,1989000,Recruitment Process
+MFAICET,Foreign Affairs ,Desk Officer ,,PsS 4.1,1400000,Recruitment Process
 MFOMA,Fisheries Department ,Manager Compliance & Enforcement ,48007202.0,PSL 4.1,2893000,Unknown Status
 MFOMA,Fisheries Department ,Manager Development and Capture,48007203.0,PSL 4.1,2893000,Unknown Status
 MFOMA,Fisheries Department ,Principal Development Officer-South ,48007209.0,PSS 5.1,1989000,Unknown Status
@@ -231,12 +231,12 @@ OPSC,VIPAM,Senior Development Officer ,466.0,PSS 5.5,2250000,Unknown Status
 OPSC,CIU,Manager Compliance ,446.0,PSL 5.1,3397000,Unknown Status
 MOH,,Finance Manager ,8014.0,PSL 4.1,2893000,Unknown Status
 MOH,,Principal Health Planner ,8083.0,PSS 6.1,2577000,Unknown Status
-MOH,,Executive Officer ,8002.0,PSL 5.1,3397000,Unknown Status
-MOH,,Executive Secretary ,8006.0,PSS 4.1,1400000,Unknown Status
-MOH,,Medical Supretendent ,9016.0,LMO 8.1,6161000,Unknown Status
-MOH,,Medical Supretendent ,10187.0,LMO 8.1,6161000,Unknown Status
-MOH,,Medical Supretendent ,11343.0,LMO 8.1,6161000,Unknown Status
-MOH,,Medical Supretendent ,11001.0,LMO 8.1,6161000,Unknown Status
-MOH,,Medical Supretendent ,9869.0,LMO 8.1,6161000,Unknown Status
-MOH,,Medical Supretendent ,11714.0,LMO 8.1,6161000,Unknown Status
-MOH,,General Services and Support Manager ,9407.0,PSL 4.1,2893000,Unknown Status
+MOH,,Executive Officer ,8002.0,PSL 5.1,3397000,Filled (Temporary)
+MOH,,Executive Secretary ,8006.0,PSS 4.1,1400000,Recruitment Process
+MOH,,Medical Supretendent ,9016.0,LMO 8.1,6161000,Await Commission Decision
+MOH,,Medical Supretendent ,10187.0,LMO 8.1,6161000,Await Commission Decision
+MOH,,Medical Supretendent ,11343.0,LMO 8.1,6161000,Await Commission Decision
+MOH,,Medical Supretendent ,11001.0,LMO 8.1,6161000,Await Commission Decision
+MOH,,Medical Supretendent ,9869.0,LMO 8.1,6161000,Await Commission Decision
+MOH,,Medical Supretendent ,11714.0,LMO 8.1,6161000,Await Commission Decision
+MOH,,General Services and Support Manager ,9407.0,PSL 4.1,2893000,Vacant 
