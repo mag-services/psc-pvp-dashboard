@@ -42,11 +42,11 @@ export function ThemeToggle() {
   const isDark = theme === 'dark';
 
   return (
-    <div className="mt-auto flex justify-center border-t border-un-border px-3 py-3">
+    <div className="mt-auto flex justify-center border-t border-un-border bg-un-canvas/30 px-3 py-3 dark:bg-transparent">
       <button
         type="button"
         onClick={toggleTheme}
-        className="flex h-10 w-10 items-center justify-center rounded-sm border border-un-border bg-un-canvas text-un-secondary shadow-un transition-colors hover:bg-un-wash hover:text-un-fg focus:outline-none focus:ring-2 focus:ring-primary/40"
+        className="un-elevated un-elevated-hover flex h-10 w-10 items-center justify-center rounded-lg border border-un-border bg-un-surface text-un-secondary transition-all duration-200 hover:-translate-y-0.5 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/45"
         aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         title={isDark ? 'Light mode' : 'Dark mode'}
       >

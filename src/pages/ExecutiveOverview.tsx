@@ -93,7 +93,7 @@ export function ExecutiveOverview({ rows }: Props) {
 
   return (
     <div className="space-y-6">
-      <header>
+      <header className="un-page-header">
         <h1 className="text-[22px] font-bold tracking-tight text-un-fg">Executive overview</h1>
         <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-un-secondary">
           Vacancy and annual cost summary for PSC leadership — priority vacant posts across ministries and

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 /**
  * UN palette via CSS variables.
- * Use `rgb(var(--un-*) / <alpha-value>)` so Tailwind does NOT bake in light-mode colours at build time.
+ * Shadows & surfaces use `--un-shadow-*` (blue-tinted, institutional — UN / MDB family).
  */
 export default {
   darkMode: 'class',
@@ -28,6 +28,15 @@ export default {
       },
       boxShadow: {
         un: 'var(--un-shadow)',
+        'un-sm': 'var(--un-shadow-sm)',
+        'un-md': 'var(--un-shadow-md)',
+        'un-lg': 'var(--un-shadow-lg)',
+        'un-inset': 'var(--un-shadow-inset)',
+        'un-glow': 'var(--un-shadow-glow)',
+      },
+      backgroundImage: {
+        'un-brand': 'linear-gradient(105deg, #185FA5 0%, #1a6bb8 42%, #378ADD 100%)',
+        'un-sheen': 'var(--un-sheen)',
       },
     },
   },
