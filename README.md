@@ -7,20 +7,9 @@ Static React + Vite dashboard (UN / institutional styling). Loads `public/data/m
 - **Repo:** https://github.com/mag-services/psc-pvp-dashboard  
 - **Site:** https://mag-services.github.io/psc-pvp-dashboard/  
 
-**Updating live data:** The site reads committed **`public/data/ministries_pvp.csv`**, not Excel. Edit **`Ministries_PVP_Clean.xlsx`** (sheet **`data`**), put the workbook at **repo root** next to **`package.json`** (or above the nested app folder if you use that layout—see `scripts/generate-data.py`), run **`npm run generate-data`**, then commit **`public/data/ministries_pvp.csv`** and push to **`main`**. Wait for **GitHub Actions** (Pages); hard-refresh the live URL.
+**Updating live data:** Publish an updated **`public/data/ministries_pvp.csv`** on **`main`** (e.g. export the **`data`** sheet from **`Ministries_PVP_Clean.xlsx`** as UTF-8 CSV with the column names the app expects, then upload/edit on GitHub). Wait for **Actions** → GitHub Pages, then hard-refresh the live URL. Optional: commit **`Ministries_PVP_Clean.xlsx`** at repo root so CI can regenerate CSV.
 
 In-app instructions: sidebar **Update guide**, or **`public/docs/user-guide.html`**.
-
-## Local
-
-```bash
-npm install
-# refresh CSV from ../Ministries_PVP_Clean.xlsx (requires Python + pandas):
-npm run build
-npm run preview
-```
-
-Development: `npm run dev`
 
 ## Deploy on GitHub Pages
 

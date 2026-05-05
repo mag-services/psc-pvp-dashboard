@@ -74,7 +74,7 @@
     <p class="sub" style="margin-top:0.5rem">Static copy for in-app help. Source: <code>docs/user-guide.qmd</code> (Quarto) in the repository.</p>
   </header>
   <main>
-    <p>This guide explains which <strong>Excel workbook</strong> feeds the dashboard, how to regenerate <strong>CSV</strong>, and how changes reach <strong>GitHub Pages</strong>.</p>
+    <p>This guide explains which <strong>Excel workbook</strong> defines the dataset, how the live site reads <strong>CSV</strong>, and how to publish updates on <strong>GitHub Pages</strong>.</p>
 
     <h2>Hosted deployment (PSC PVP on GitHub)</h2>
     <p>Published copies may use:</p>
@@ -83,32 +83,22 @@
       <li><strong>Live site:</strong> <a href="https://mag-services.github.io/psc-pvp-dashboard/">mag-services.github.io/psc-pvp-dashboard/</a></li>
     </ul>
 
-    <h3>How to update data on GitHub — recommended path</h3>
-    <p>Pages serves the <strong>built</strong> site; vacancy data comes from committed <strong>CSV</strong> (Excel is never read in the browser).</p>
+    <h3>How to update data on GitHub</h3>
+    <p>The live site reads committed <strong><code>public/data/ministries_pvp.csv</code></strong> only (not Excel in the browser).</p>
     <ol>
-      <li>Clone or pull: <code>git clone https://github.com/mag-services/psc-pvp-dashboard.git</code> and open the repo folder (where <code>package.json</code> lives).</li>
-      <li>Edit <code>Ministries_PVP_Clean.xlsx</code>, worksheet <strong>data</strong>, save.</li>
-      <li>Place the workbook at <strong>repo root</strong> next to <code>package.json</code>, or (if the app lives in a subfolder) one level above that app folder.</li>
-      <li>Regenerate CSV:
-        <pre>pip install pandas openpyxl
-npm run generate-data</pre>
-        Writes <code>public/data/ministries_pvp.csv</code>.
-      </li>
-      <li>Commit and push to <code>main</code>:
-        <pre>git add public/data/ministries_pvp.csv
-git commit -m "Update ministry vacancy CSV"
-git push origin main</pre>
-      </li>
-      <li>Open <strong>Actions</strong> on GitHub → wait until the Pages workflow succeeds.</li>
-      <li>Reload <a href="https://mag-services.github.io/psc-pvp-dashboard/">mag-services.github.io/psc-pvp-dashboard/</a> with hard-refresh (<kbd>Ctrl+F5</kbd>).</li>
+      <li>Use workbook <code>Ministries_PVP_Clean.xlsx</code>, sheet <strong>data</strong>. Ensure CSV column headers match the required names below.</li>
+      <li>Produce <strong><code>ministries_pvp.csv</code></strong> (UTF-8, comma-separated) — e.g. Excel <strong>Save As</strong> CSV from the <code>data</code> sheet.</li>
+      <li>On <a href="https://github.com/mag-services/psc-pvp-dashboard">GitHub</a>, open <code>public/data/</code> → replace <code>ministries_pvp.csv</code> (upload or edit) → commit to <strong><code>main</code></strong>.</li>
+      <li>Open <strong>Actions</strong> and wait until the Pages deployment succeeds.</li>
+      <li>Reload <a href="https://mag-services.github.io/psc-pvp-dashboard/">the live site</a> with hard-refresh (<kbd>Ctrl+F5</kbd>).</li>
     </ol>
 
     <div class="note">
-      <strong>CI:</strong> <code>npm run build:pages</code> builds the static app only unless your workflow explicitly runs Excel → CSV. Committing updated <strong>ministries_pvp.csv</strong> is the simplest way to refresh the live data.
+      <strong>Optional — CI from Excel:</strong> If <code>Ministries_PVP_Clean.xlsx</code> is committed at the <strong>repo root</strong>, GitHub Actions can run the export script on the server (Python + pandas). Otherwise, committing the updated CSV alone is enough.
     </div>
 
     <h3>Optional: store Excel on GitHub</h3>
-    <p>You can commit <code>Ministries_PVP_Clean.xlsx</code> at the repo root for backup or future automation—but the site reads <code>public/data/ministries_pvp.csv</code> until you regenerate and commit CSV (or automate that in Actions).</p>
+    <p>You can commit <code>Ministries_PVP_Clean.xlsx</code> at the repo root for backup or so Actions can regenerate <code>public/data/ministries_pvp.csv</code> on each push (if that step is enabled in the workflow).</p>
 
     <h2>Folder layout (typical)</h2>
     <p><strong>Dashboard = repo root</strong> (e.g. <a href="https://github.com/mag-services/psc-pvp-dashboard">mag-services/psc-pvp-dashboard</a>).</p>
@@ -152,35 +142,6 @@ git push origin main</pre>
     </table>
     <p class="muted">Renaming columns requires updating <code>src/lib/data.ts</code>.</p>
 
-    <h2>Update steps (local)</h2>
-    <h3>1. Edit the workbook</h3>
-    <p>Open <code>Ministries_PVP_Clean.xlsx</code>, edit the <code>data</code> sheet, save.</p>
-
-    <h3>2. Regenerate the CSV</h3>
-    <p>From the dashboard folder (alongside <code>package.json</code>):</p>
-    <pre>npm run generate-data</pre>
-    <p>Requires <strong>Python 3</strong>, <strong>pandas</strong>, and an Excel engine (e.g. <strong>openpyxl</strong>):</p>
-    <pre>pip install pandas openpyxl</pre>
-    <p class="muted">Writes <code>public/data/ministries_pvp.csv</code>. If the workbook is missing, place <code>Ministries_PVP_Clean.xlsx</code> beside <code>package.json</code> or in the parent folder (see script error message).</p>
-
-    <h3>3. Check locally</h3>
-    <pre>npm install
-npm run dev</pre>
-    <p>Or full build + preview (<code>npm run build</code> runs <code>generate-data</code> first; <code>npm run build:pages</code> does not):</p>
-    <pre>npm run build
-npm run preview</pre>
-
-    <div class="note">
-      <strong>GitHub Actions:</strong> Typical CI uses <code>npm run build:pages</code> (TypeScript + Vite only). Push an updated <strong>ministries_pvp.csv</strong> so the live site shows new data unless your workflow regenerates CSV.
-    </div>
-
-    <h3>4. Push to GitHub</h3>
-    <ol>
-      <li>Commit the updated <code>ministries_pvp.csv</code> (and the <code>.xlsx</code> if your team keeps it in Git).</li>
-      <li>Push to <code>main</code> (or your deploy branch).</li>
-      <li>Wait for GitHub Pages / Actions to finish.</li>
-    </ol>
-
     <h2>How the app loads data</h2>
     <p>Static React + Vite app. It fetches <code>./data/ministries_pvp.csv</code> at runtime — it does <strong>not</strong> read Excel in the browser. Routes: <code>#/executive</code>, <code>#/ministry</code>, <code>#/recruitment</code>.</p>
 
@@ -192,7 +153,6 @@ npm run preview</pre>
         <tr><td>Sheet error</td><td>Worksheet must be named <code>data</code>.</td></tr>
         <tr><td>Rows missing</td><td><code>MINISTRY</code> must be non-empty.</td></tr>
         <tr><td>Old data on Pages</td><td>Commit/deploy latest CSV; rerun workflow.</td></tr>
-        <tr><td>Python errors</td><td>Install pandas + openpyxl for the Python you use.</td></tr>
       </tbody>
     </table>
 
