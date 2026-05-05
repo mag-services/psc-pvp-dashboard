@@ -1,0 +1,242 @@
+MINISTRY,DEPARTMENT,PRIORITY VACANT POSTS,POST NUMBER,SALARY SCALE,ANNUAL SALARY,RECRUITMENT STATUS
+MALFB,CSU,Manager Compliance & Policy,7006.0,PSL 3.1,2390000,Unknown Status
+MALFB,CSU,Manager PMU,7011.0,PSS 6.1,2577000,Unknown Status
+MALFB,CSU,Sectoral Development Coordinator,7003.0,PSL 4.1,2893000,Unknown Status
+MALFB,CSU,Senior M&E,7010.0,PSS 6.1,2577000,Unknown Status
+MALFB,CSU,Manager EP&S Unit,7008.0,PSS 6.1,2577000,Unknown Status
+MALFB,DOF,SFO Compliance Officer – ,7405.0,PST 2.6,2114000,Unknown Status
+MALFB,DOF,SFO Research Officer – ,7408.0,PSS 4.5,1662000,Unknown Status
+MALFB,DOF,SFO Malampa – ,7410.0,PSS 4.5,1662000,Unknown Status
+MALFB,DOF,SFO Shefa,7411.0,PSS 4.5,1662000,Unknown Status
+MALFB,DOF,SFO Tafea,7412.0,PSS 4.5,1662000,Unknown Status
+MALFB,DOF,SFO Penama,7413.0,PSS 4.5,1662000,Unknown Status
+MALFB,DOF,SFO Sanma,7414.0,PSS 4.5,1662000,Unknown Status
+MALFB,DOF,SFO Torba,7415.0,PSS 4.5,1662000,Unknown Status
+MALFB,DOF,FO Tree improvement,7420.0,PSS 4.1,1400000,Unknown Status
+MALFB,DOF,FO Tree improvement,7421.0,PSS 4.1,1400000,Unknown Status
+MALFB,DOF,FO Timber inspector,7422.0,PSS 4.1,1400000,Unknown Status
+MALFB,DOF,FO Timber inspector,7423.0,PSS 4.1,1400000,Unknown Status
+MALFB,DOF,FO Shefa,7428.0,PSS 4.1,1400000,Unknown Status
+MALFB,DOF,FO Shefa,7429.0,PSS 4.1,1400000,Unknown Status
+MALFB,DOF,FO Penama,7431.0,PSS 3.1  ,1209000,Unknown Status
+MALFB,DOF,FO Sanma,7432.0,PSS 4.1,1400000,Unknown Status
+MALFB,DOF,FO Assistant Shefa,7442.0,PSS1.9  ,1002000,Unknown Status
+MALFB,DOF,FO Assistant Tafea,7444.0,PSS 3.1,1209000,Unknown Status
+MALFB,DOF,FO Assistant Penama,7446.0,PSS 3.1,1209000,Unknown Status
+MALFB,DOF ,FO Assistant Sanma ,7447.0,PSS 3.1 ,1209000,Unknown Status
+MALFB,DOF ,FO Assistant Torba ,7450.0,PSS 3.1 ,1209000,Unknown Status
+MALFB,DOF ,Handyman- Vila ,7456.0,PSO 1.1 ,652000,Unknown Status
+MALFB,DOF ,Handyman- Luganville ,,PSO 1.1 ,652000,Unknown Status
+MALFB,DoB ,Senior Veterinary officer ,49007604.0,Contract ,NA ,Unknown Status
+MALFB,DoB ,Senior Compliance officer  ,49007606.0,PSS 5.5 ,2250000,Unknown Status
+MALFB,DoB ,Assistant Meat Inspector  ,49007627.0,PSO 5.3 ,1702000,Unknown Status
+MALFB,DoB ,Plant Health Inspector (Ent)  ,49007629.0,PSO 4.7 ,1407000,Unknown Status
+MALFB,DoB ,Assistant Border officer ,49007634.0,PSS 4.5 ,1662000,Unknown Status
+MALFB,DoB ,Assistant Border officer ,49007635.0,PSS 4.5 ,1662000,Unknown Status
+MALFB,DoB ,Assistant Border officer ,49007636.0,PSS 4.5 ,1662000,Unknown Status
+MALFB,DoB ,Technical Assistant Border officer ,49007647.0,PSS 4.1 ,1400000,Unknown Status
+MALFB,DoB ,Cleaner (n) ,49007655.0,PSS 2.5 ,1101000,Unknown Status
+MALFB,DoL ,Animal Health Officer-Lakatoro ,7685.0,PS 7.1 ,2202300,Unknown Status
+MALFB,DoL ,Livestock Officer-Malampa ,7698.0,PS 6.1 ,1906500,Unknown Status
+MALFB,DoL ,Assistant Livestock Officer-S/W BAY ,7719.0,PS 5.1 ,1513100,Unknown Status
+MALFB,DoL ,Assistant Livestock Officer-W/Ambrym ,7720.0,PS 5.1 ,1513100,Unknown Status
+MALFB,DoL ,Livestock Support Officer-N/West A ,7740.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Livestock Support Officer-N/West B ,7741.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Livestock Support Officer-Lamap ,7742.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Livestock Support Officer-SE Malekula ,7743.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Livestock Support Officer-S/East Ambrym ,7744.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Livestock Support Officer-Nembul -N/A ,7745.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Small Livestock Nursery Officer-Lakatoro ,7761.0,PS 3.1 ,1001300,Unknown Status
+MALFB,DoL ,Principal Livestock Officer-Torba ,7675.0,PS 8.1 ,2693000,Unknown Status
+MALFB,DoL ,Animal Health Officer-Sola ,7686.0,PS 7.1 ,2202300,Unknown Status
+MALFB,DoL ,Livestock Support Officer-Loh ,7746.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Livestock Support Officer-Ureparapara ,7747.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Livestock Support Officer-Vanualava ,7748.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Small Livestock Nursey Off-Sola ,7762.0,PS 3.1 ,1001300,Unknown Status
+MALFB,DoL ,Animal Health Officer-Penama ,7687.0,PS 7.1 ,2202300,Unknown Status
+MALFB,DoL ,Livestock Support Officer-Abwantuntora ,7749.0,PS 4.1 ,1195500,Unknown Status
+MALFB,DoL ,Small Livestock Nursery Off-Saratamata ,7763.0,PS 3.1 ,1001300,Unknown Status
+MALFB,DARD ,Principal Admin & Finance Officer ,7811.0,PSS 6.1 ,2577000,Unknown Status
+MALFB,DARD ,Receptionist  ,7999.0,PSS 2.1 ,1015000,Unknown Status
+MALFB,DARD ,Driver - North ,8000.0,PSS 1.1 ,652000,Unknown Status
+MALFB,DARD ,Root Crop Specialist ,7825.0,PST 3.1 ,2510000,Unknown Status
+MALFB,DARD ,Coconut Officer ,7869.0,PSS 5.1 ,198900,Unknown Status
+MALFB,DARD ,Root CroPSOfficer ,7872.0,PSS 5.1 ,198900,Unknown Status
+MALFB,DARD ,Permit Officer  ,7874.0,PSS 4.1 ,1400000,Unknown Status
+MALFB,DARD ,Data Clerk ,7944.0,PSS 3.1 ,1209000,Unknown Status
+MALFB,DARD ,PADO Penama ,7828.0,PST 3.1 ,2510000,Unknown Status
+MALFB,DARD ,SADO - Santo ,7849.0,PSS 5.1 ,1989000,Unknown Status
+MALFB,DARD ,SADO - Banks ,7847.0,PSS 5.1 ,1989000,Unknown Status
+MALFB,DARD ,Principal Commercial & Agriculture Officer ,7808.0,PSS 6.1 ,2577000,Unknown Status
+MALFB,DARD ,Principal Policy and Planning Officer ,7807.0,PSS 6.1 ,2577000,Unknown Status
+MALFB,DARD ,Senior Data & Monitoring Officer ,7830.0,PSS 5.1 ,1989000,Unknown Status
+MALFB,DARD ,Senior Agriculture Economist ,7831.0,PSS 5.1 ,1989000,Unknown Status
+MALFB,DARD ,Permit Officer ,7875.0,PSS 4.1 ,1400000,Unknown Status
+MFAICET,Foreign Affairs ,Senior Desk Officer ,,PsS 5.1,1989000,Unknown Status
+MFAICET,Foreign Affairs ,Senior Desk Officer ,,PsS 5.1,1989000,Unknown Status
+MFAICET,Foreign Affairs ,Desk Officer ,,PsS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Manager Compliance & Enforcement ,48007202.0,PSL 4.1,2893000,Unknown Status
+MFOMA,Fisheries Department ,Manager Development and Capture,48007203.0,PSL 4.1,2893000,Unknown Status
+MFOMA,Fisheries Department ,Principal Development Officer-South ,48007209.0,PSS 5.1,1989000,Unknown Status
+MFOMA,Fisheries Department ,Aquaculture Officer-South ,48007224.0,PSS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Aquaculture Officer-North ,48007225.0,PSS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Finance & Admin Officer Santo ,48007232.0,PSS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Fisheries Development Officer Sanma ,48007233.0,PSS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Skipper/Engineer ,48007236.0,PSS 3.1,1209000,Unknown Status
+MFOMA,Fisheries Department ,Observer Port Sampler ,48007237.0,PSS 2.1,1015000,Unknown Status
+MFOMA,Fisheries Department ,Observer Debriefer 1,48007238.0,PSS 2.9,1187000,Unknown Status
+MFOMA,Fisheries Department ,Boat Builder 3,48007246.0,PSS 2.1,1015000,Unknown Status
+MFOMA,Fisheries Department ,Handyman/Driver Santo ,48007251.0,PSS 2.1,1015000,Unknown Status
+MFOMA,Fisheries Department ,Principal Fisheries Officer International,48007255.0,PST 2.8,2312000,Unknown Status
+MFOMA,Fisheries Department ,Senior Authorised Verification Officer Santo ,48007263.0,PSS 4.5,1662000,Unknown Status
+MFOMA,Fisheries Department ,Authorization Officer Certification Santo ,48007267.0,PSS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Authorization Officer Verification Officer Santo,48007268.0,PSS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Principal Authorized Verification Officer Vila ,48007271.0,PSS 5.2,2054000,Unknown Status
+MFOMA,Fisheries Department ,Authorised Officer Verification Vila ,48007273.0,PSS 4.1,1400000,Unknown Status
+MFOMA,Fisheries Department ,Seafood Data Entry Clerk Vila ,48007277.0,PSS 2.1,1015000,Unknown Status
+MOCCA,NDMO,Clerical Officer ,17000736.0,PSS 3.1,1209000,Unknown Status
+MOCCA,NDMO,Infornmation Management and Data Officer ,17006982.0,PSS 4.9,1924000,Unknown Status
+MOCCA,Energy ,Infornmation and Communications Officer ,,PSS 3.1,1209000,Unknown Status
+MOCCA,Energy ,Driver Messenger ,,PSS 1.4,783000,Unknown Status
+MOCCA,Energy ,"Management Administration, Finance & Procurement ",,PSS 5.8,2447000,Unknown Status
+MOCCA,Energy ,Sanma Provincial Energy Officer ,,PST 2.4,1917000,Unknown Status
+MOCCA,Environment ,"Senior Finance, Administration and Support Officer ",640006934.0,PSS 4.9,1924000,Unknown Status
+MOCCA,Environment ,Principal Education & Extension Officer ,640005471.0,PSS 5.5,2250000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Deputy Director ,6801.0,DIR 1.1,3968600,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Communication & Public Relations Officer ,6837.0,PSS 4.4,1597000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Executive Assistant ,6838.0,PSS 1.9,1002000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Senior Climatologist ,6839.0,PSS 5.1,1989000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Weather Forecaster ,6847.0,PSS 4.6,1727000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Climatologists Rain,6854.0,PSS 4.1,1400000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Senior Met Officer Lamap,6864.0,PSS 4.4,1597000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Weather Observer ,6873.0,PSS 3.4,1273000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Weather Observer ,6880.0,PSS 3.4,1273000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Weather Observer ,,PSS 3.4,1273000,Unknown Status
+MOCCA,Vanuatu Meteorological Service ,Rainfall Collector ,,,,Unknown Status
+MOCCA,Geo-Hazards,Finance & Admin,,PSS 4.2,1466000,Unknown Status
+MOCCA,Geo-Hazards,Director ,,DIR 1.1,3968600,Unknown Status
+MOCCA,Corporate Service Unit ,Internal Audit ,7007.0,PSS 5.5,2250000,Unknown Status
+MOCCA,Climate Change ,Senior Officer Adaptation & DRM ,7022.0,PSS 4.8,1858000,Unknown Status
+MIPU,PWD HQ,Receptionist/Filing Clerk ,78006130.0,PS 3.1 ,1001300,Unknown Status
+MIPU,PWD HQ,Senior Admin & HRO ,78006163.0,PS 6.1  ,1906500,Unknown Status
+MIPU,PWD HQ,Division Engineer (Torba) ,78006187.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Foreman Sealed Roads ,78006305.0,PS 5.1 ,1513100,Unknown Status
+MIPU,PWD HQ,Division Engineer ,78006601.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Principal Engineer ,78006108.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Principal Surveyor ,78006184.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Principal Project Engineer Civil & Building ,78006113.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Senior Admin & HRO ,78006163.0,PS6.1  ,1906500,Unknown Status
+MIPU,PWD HQ,Division Engineer (Torba) ,78006187.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Foreman Sealed Roads ,78006305.0,PS 5.1 ,1513100,Unknown Status
+MIPU,PWD HQ,Division Engineer ,78006601.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Principal Engineer ,78006108.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Principal Surveyor ,78006184.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Principal Project Engineer Civil & Building ,78006113.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD HQ,Architect South ,78006122.0,PS 7.1 ,2202300,Unknown Status
+MIPU,PWD HQ,Draftsman South  ,78006174.0,PS 6.1 ,1906500,Unknown Status
+MIPU,PWD HQ,Lab Technician North  ,78006792.0,PS 5.1 ,1513100,Unknown Status
+MIPU,PWD HQ,Laboratory Admin  ,78006181.0,PS 3.1 ,1001300,Unknown Status
+MIPU,PWD HQ,Lab Technician South  ,78006182.0,PS 5.1 ,1573600,Unknown Status
+MIPU,PWD HQ,Snr Store man South ,78006223.0,PS 4.6 ,1434600,Unknown Status
+MIPU,PWD HQ,Procurement Officer South ,78006710.0,PS 4.1 ,1195500,Unknown Status
+MIPU,PWD HQ,Workshop Admin Officer ,78006171.0,PS 3.1 ,1001300,Unknown Status
+MIPU,PWD HQ,Road Compliance Officers  ,78006135.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD HQ,Provincial Safeguard Officer ,78006146.0,PS 5.1 ,1513100,Unknown Status
+MIPU,PWD HQ,Road Worthiness Casual ,78006157.0,PS 4.1 ,1195500,Unknown Status
+MIPU,PWD Shefa,Site Inspector Rural  ,78006228.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Shefa,Site Inspector Sealed ,78006232.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Shefa,Grounds Man ,78006235.0,PS 3.1   ,1001300,Unknown Status
+MIPU,PWD Sanma,Foreman Roads ,78006304.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Sanma,Site Inspector Rural  ,78006330.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Sanma,Site Inspector Urban ,78006334.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Sanma,Grounds Man ,78006339.0,PS 3.1   ,1001300,Unknown Status
+MIPU,PWD Malampa,Foreman Roads ,78006405.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Malampa,Site Inspector Rural  ,78006426.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Malampa,Grounds Man ,78006433.0,PS 3.1   ,1001300,Unknown Status
+MIPU,PWD Malampa,Site Inspector Sealed ,78006430.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Tafea,Foreman Roads ,78006505.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Tafea,Divisional Manager (Tafea)                                                        ,78006500.0,PS 8.1 ,2693000,Unknown Status
+MIPU,PWD Tafea,Finance Officer                                                                  ,78006519.0,PS 5.2 ,1573600,Unknown Status
+MIPU,PWD Tafea,Site Inspector Rural  ,78006530.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Tafea,Grounds Man ,78006535.0,PS 3.1   ,1001300,Unknown Status
+MIPU,PWD Tafea,Site Inspector Sealed ,78006532.0,PS 5.1   ,1513100,Unknown Status
+MIPU,PWD Penama ,Qualified Operator                                                            ,78006608.0,PS 4.3   ,1291200,Unknown Status
+MIPU,PWD Penama ,Qualified Operator                                                            ,78006610.0,PS 4.3   ,1291200,Unknown Status
+MIPU,PWD Penama ,Grounds Man ,78006626.0,PS 3.1   ,1001300,Unknown Status
+MIPU,PWD Torba ,Qualified Operator                                                            ,78006704.0,PS 4.3   ,1291200,Unknown Status
+MIPU,PWD Torba ,Grounds Man ,78006717.0,PS 3.1   ,1001300,Unknown Status
+MOJYCS,Coporate Service Unit ,Sector Project Coordinator ,,,,Unknown Status
+MOJYCS,Coporate Service Unit ,Capacity Development Officer ,,,,Unknown Status
+MOJYCS,Coporate Service Unit ,Convention Agaist Corruption Coordinator ,,,,Unknown Status
+MOJYCS,Coporate Service Unit ,Torba Compliance ,,,,Unknown Status
+MOJYCS,Coporate Service Unit ,Sama Disability Officer,,,,Unknown Status
+MOJYCS,Coporate Service Unit ,Penama Disability Officer Compliance ,,,,Unknown Status
+MOJYCS,DWA,EVAWG Officer,,,,Unknown Status
+MOJYCS,DWA,GPC Coordinator ,,,,Unknown Status
+MOJYCS,DWA,Driver/Messenger ,,,,Unknown Status
+MOJYCS,DWA,Programs Manager ,,,,Unknown Status
+MOJYCS,DWA,Womens Governance Coordinator ,,,,Unknown Status
+MOJYCS,Malvatumauri Council of Chiefs,Maintenance Officer ,,,,Unknown Status
+MOJYCS,Malvatumauri Council of Chiefs,Policy Development Officer ,,,,Unknown Status
+MOJYCS,Malvatumauri Council of Chiefs,Ceremonial Officer ,,,,Unknown Status
+MOJYCS,Youth & Sports ,Torba Sports Development Officer ,3613.0,,,Unknown Status
+MOJYCS,Youth & Sports ,Malampa Sports Development Officer ,3617.0,,,Unknown Status
+MOJYCS,Youth & Sports ,Senior Sports Training And Coordination Offier ,3604.0,,,Unknown Status
+MOET,ESD,Curriculum Coordinator ,5400333.0,PO 6.3 ,2042700,Unknown Status
+MOET,ESD,Numeracy Coordinator ,54003344.0,PS 6.1 ,1906500,Unknown Status
+MOET,ESD,Literacy Coordinator ,54003346.0,PS 6.1 ,1906500,Unknown Status
+MOET,ESD,Literacy Officer ,54003347.0,PS 5.4 ,1694700,Unknown Status
+MOET,ESD,Desktop Publisher ,54003442.0,PS 5.1 ,1513100,Unknown Status
+MOET,ESD,Executive Secretary ,54003020.0,PS 4.3 ,1291200,Unknown Status
+MOET,ESD,Senior Secondary School Examination Office ,54003355.0,PS 7.1 ,2202300,Unknown Status
+MOET,ESD,Senior Secondary School Examination Office ,54003356.0,PS 6.1 ,1906500,Unknown Status
+MOET,ESD,Senior Secondary School Examination Office ,54003357.0,PS 6.1 ,1906500,Unknown Status
+MOET,ESD,Junior Secondary School Examination Office ,54003359.0,PO 6.3 ,2042700,Unknown Status
+MOET,ESD,School Improvement Officer ,54003322.0,PS 6.1 ,1906500,Unknown Status
+MOET,ESD,Primary Education Officer ,54003309.0,PS 5.1 ,1513100,Unknown Status
+MOET,ESD,TVET Coordinator ,54003315.0,PO 6.3 ,2042700,Unknown Status
+MOET,ESD,Provincial Maintenance Officer ,54003386.0,PS 4.1 ,1195500,Unknown Status
+MOET,ESD,Provincial Pre-School Coordinator ,54003405.0,PS 5.6 ,1815700,Unknown Status
+MOET,ESD,Senior Provincial Advisor ,54003429.0,PS 5.1 ,1513100,Unknown Status
+MOET,ESD,Provincial Primary Advisor ,54003435.0,PS 5.1 ,1513100,Unknown Status
+MOET,ESD,Deputy PEO ,54003381.0,PS 6.1 ,1906500,Unknown Status
+MOET,ESD,Provincial Primary Advisor ,54003436.0,PS 5.1 ,1513100,Unknown Status
+MOET,ESD,Provincial Secondary Advisor ,54003441.0,PS 5.1 ,1513100,Unknown Status
+MOIA,Corporate Service Unit ,Human Resource Officer ,577.0,PSS 5.1,1989000,Unknown Status
+MOIA,Corporate Service Unit ,M&E Officer,580.0,PSS 5.1,1989000,Unknown Status
+MOLNR ,Water ,CDO Sanma,5339.0,PSO 4.1,1321000,Sucession Plan 
+MOLNR ,Water ,Foreman Malampa ,5329.0,PSS 4.1,1400000,Position Removed
+MOLNR ,Water ,CDO Torba,,PSO 4.1,1321000,In Progress
+MOLNR ,Water ,Urban Water Technician-Penama,5355.0,PSS 3.1,1209000,Completed
+MOLNR ,Water ,Urban Water Technician-Penama,5356.0,PSS 3.1,1209000,Completed
+MOLNR ,Water ,Receptionist ,5363.0,PSS 1.5,827000,Unknown Status
+MOLNR ,Lands,Senior Planning & Enforcement ,5110.0,PSS 5.1,1989000,Unknown Status
+MOLNR ,Lands,Lands Officer Planning Santo,5113.0,PSS 4.1,1400000,Unknown Status
+MOLNR ,Lands,Revenue Collection Officer ,5111.0,PSS 4.1,1400000,Unknown Status
+MOLNR ,Lands,Surveyor Cadaster ,5116.0,PSS 4.1,1400000,Unknown Status
+MOLNR ,Lands,Finance Officer ,5010.0,PSS 4.1,1400000,Unknown Status
+MOLNR ,Lands,GIS Technician ,5016.0,PSS 4.6,1727000,Unknown Status
+MOLNR ,Lands,Senior Valuation & Lease ,6002.0,PST 3.1,2510000,Unknown Status
+MOLNR ,Lands,Research Officer,6005.0,PSO 3.1,1193000,Unknown Status
+MPM,,Executive Secretary to Director,52000059.0,PST 4.1,3167000,Unknown Status
+MPM,,Communication and Public Relations ,52010055.0,PS 9.1,3408000,Unknown Status
+OPSC,CSU,Finance and Administration Officer,568.0,PSS 5.1,1989000,Unknown Status
+OPSC,HRM,Senior Perfornmance Officer ,456.0,PSS 5.5,2250000,Unknown Status
+OPSC,ODU,Principal Job Analyst ,456.0,PSS 6.1,2577000,Unknown Status
+OPSC,ODU,Principal Organization Perfornmance Audit & Evaluation,474.0,PSS 6.1,2577000,Unknown Status
+OPSC,ODU,Organizational Development Officer ,488.0,PSS 4.1,1400000,Unknown Status
+OPSC,IPDU,Principal Officer ( Digital and Innovation),545.0,PSS 6.1,2577000,Unknown Status
+OPSC,VIPAM,Principal Development Officer ,489.0,PSS 6.1,2577000,Unknown Status
+OPSC,VIPAM,Senior Development Officer ,466.0,PSS 5.5,2250000,Unknown Status
+OPSC,CIU,Manager Compliance ,446.0,PSL 5.1,3397000,Unknown Status
+MOH,,Finance Manager ,8014.0,PSL 4.1,2893000,Unknown Status
+MOH,,Principal Health Planner ,8083.0,PSS 6.1,2577000,Unknown Status
+MOH,,Executive Officer ,8002.0,PSL 5.1,3397000,Unknown Status
+MOH,,Executive Secretary ,8006.0,PSS 4.1,1400000,Unknown Status
+MOH,,Medical Supretendent ,9016.0,LMO 8.1,6161000,Unknown Status
+MOH,,Medical Supretendent ,10187.0,LMO 8.1,6161000,Unknown Status
+MOH,,Medical Supretendent ,11343.0,LMO 8.1,6161000,Unknown Status
+MOH,,Medical Supretendent ,11001.0,LMO 8.1,6161000,Unknown Status
+MOH,,Medical Supretendent ,9869.0,LMO 8.1,6161000,Unknown Status
+MOH,,Medical Supretendent ,11714.0,LMO 8.1,6161000,Unknown Status
+MOH,,General Services and Support Manager ,9407.0,PSL 4.1,2893000,Unknown Status

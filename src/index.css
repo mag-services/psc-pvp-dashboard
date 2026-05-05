@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-un-canvas text-un-fg antialiased;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Corporate table density (UN-style briefing tables) */
+@layer components {
+  .un-table-shell {
+    @apply overflow-auto rounded-md border border-un-border bg-un-surface;
+  }
+  .un-thead {
+    @apply sticky top-0 z-10 border-b border-un-border bg-un-canvas text-left text-[10px] font-semibold uppercase tracking-wide text-un-tertiary;
+  }
+  .un-trow {
+    @apply border-t border-un-border;
+  }
+}
