@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Institutional UI: flat shadows, neutral surfaces (enterprise / SSC-style apps) */
+
 /* Space-separated RGB channels for Tailwind `rgb(var(--x) / <alpha-value>)` */
 :root {
   color-scheme: light;
@@ -9,25 +11,17 @@
   --un-secondary: 74 85 104;
   --un-tertiary: 113 128 150;
   --un-surface: 255 255 255;
-  --un-canvas: 247 249 252;
-  --un-border: 226 232 240;
-  --un-wash: 232 241 251;
+  --un-canvas: 246 247 249;
+  --un-border: 220 224 231;
+  --un-wash: 236 240 246;
   --un-deep: 13 74 122;
   --un-navy: 26 54 93;
-  /* Layered shadows — cool bias (UN / MDB briefings) */
-  --un-shadow: 0 1px 2px rgb(24 95 165 / 0.05), 0 1px 2px rgb(26 26 26 / 0.04);
-  --un-shadow-sm: 0 2px 6px rgb(24 95 165 / 0.07), 0 2px 4px rgb(26 26 26 / 0.035);
-  --un-shadow-md: 0 6px 20px rgb(24 95 165 / 0.1), 0 2px 8px rgb(26 26 26 / 0.05),
-    0 0 0 1px rgb(24 95 165 / 0.04);
-  --un-shadow-lg: 0 16px 40px rgb(24 95 165 / 0.12), 0 6px 16px rgb(26 26 26 / 0.06);
-  --un-shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.65);
-  --un-shadow-glow: 0 0 0 1px rgb(55 138 221 / 0.12), 0 8px 24px rgb(24 95 165 / 0.12);
-  --un-sheen: linear-gradient(
-    135deg,
-    rgb(255 255 255 / 0.92) 0%,
-    rgb(255 255 255 / 0.45) 45%,
-    rgb(236 246 255 / 0.55) 100%
-  );
+  --un-shadow: 0 1px 1px rgb(0 0 0 / 0.05);
+  --un-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.04), 0 0 0 1px rgb(var(--un-border));
+  --un-shadow-md: 0 1px 3px rgb(0 0 0 / 0.06), 0 0 0 1px rgb(var(--un-border));
+  --un-shadow-lg: var(--un-shadow-md);
+  --un-shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.75);
+  --un-shadow-glow: var(--un-shadow-sm);
 }
 
 html.dark {
@@ -35,19 +29,18 @@ html.dark {
   --un-fg: 232 237 244;
   --un-secondary: 168 184 204;
   --un-tertiary: 125 143 163;
-  --un-surface: 21 34 50;
-  --un-canvas: 11 18 32;
-  --un-border: 42 58 79;
-  --un-wash: 26 47 74;
+  --un-surface: 22 34 49;
+  --un-canvas: 14 22 34;
+  --un-border: 48 60 76;
+  --un-wash: 26 39 54;
   --un-deep: 99 164 232;
   --un-navy: 207 228 252;
-  --un-shadow: 0 1px 2px rgb(0 0 0 / 0.45);
-  --un-shadow-sm: 0 2px 8px rgb(0 0 0 / 0.38), 0 0 0 1px rgb(55 138 221 / 0.08);
-  --un-shadow-md: 0 8px 28px rgb(0 0 0 / 0.42), 0 0 0 1px rgb(55 138 221 / 0.1);
-  --un-shadow-lg: 0 20px 48px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(55 138 221 / 0.12);
+  --un-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+  --un-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35), 0 0 0 1px rgb(var(--un-border));
+  --un-shadow-md: 0 1px 3px rgb(0 0 0 / 0.38), 0 0 0 1px rgb(var(--un-border));
+  --un-shadow-lg: var(--un-shadow-md);
   --un-shadow-inset: inset 0 1px 0 rgb(255 255 255 / 0.06);
-  --un-shadow-glow: 0 0 28px rgb(55 138 221 / 0.15), 0 0 0 1px rgb(55 138 221 / 0.14);
-  --un-sheen: linear-gradient(135deg, rgb(255 255 255 / 0.06) 0%, rgb(255 255 255 / 0) 50%, rgb(55 138 221 / 0.08) 100%);
+  --un-shadow-glow: var(--un-shadow-sm);
 }
 
 html,
@@ -57,53 +50,43 @@ body,
 }
 
 body {
-  @apply text-un-fg antialiased;
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-un-canvas text-un-fg antialiased;
+  font-family: Montserrat, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.45;
-  background-color: rgb(var(--un-canvas));
-  background-image: linear-gradient(
-    165deg,
-    rgb(var(--un-canvas)) 0%,
-    rgb(var(--un-wash) / 0.38) 42%,
-    rgb(var(--un-canvas)) 100%
-  );
-  background-attachment: fixed;
+  font-feature-settings: 'kern' 1;
+  letter-spacing: 0.01em;
 }
 
 @layer components {
+  /* Static card elevation — no hover motion or shadow lift */
   .un-elevated {
-    box-shadow: var(--un-shadow-md), var(--un-shadow-inset);
-  }
-  .un-elevated-hover:hover {
-    box-shadow: var(--un-shadow-lg), var(--un-shadow-glow), var(--un-shadow-inset);
+    box-shadow: var(--un-shadow-md);
   }
 
-  /* Page title — UN/ADB-style accent rule */
   .un-page-header {
-    @apply relative mb-1 border-l-4 border-accent pb-3 pl-4;
+    @apply relative mb-1 border-l-4 border-primary pb-3 pl-4;
   }
   .un-page-header::after {
     content: '';
-    @apply pointer-events-none absolute bottom-0 left-0 h-0.5 w-16 max-w-full bg-gradient-to-r from-primary to-transparent opacity-80;
+    @apply pointer-events-none absolute bottom-0 left-0 h-px w-12 max-w-full bg-un-border;
   }
   .un-page-header h1 {
-    @apply pb-1;
+    @apply pb-0.5;
   }
 
   .un-table-shell {
     overflow: auto;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     border-width: 1px;
     border-color: rgb(var(--un-border) / 1);
     background-color: rgb(var(--un-surface) / 1);
-    box-shadow: var(--un-shadow-sm), var(--un-shadow-inset);
+    box-shadow: var(--un-shadow-sm);
   }
   .un-thead {
     @apply sticky top-0 z-10 border-b border-un-border bg-un-canvas text-left text-[10px] font-semibold uppercase tracking-wide text-un-tertiary;
-    box-shadow: 0 1px 0 rgb(var(--un-border) / 0.8);
   }
   .un-trow {
-    @apply border-t border-un-border transition-colors duration-150 hover:bg-un-wash/40 dark:hover:bg-un-wash/25;
+    @apply border-t border-un-border hover:bg-un-wash/50 dark:hover:bg-white/[0.03];
   }
 }

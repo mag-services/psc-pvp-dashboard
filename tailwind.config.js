@@ -24,7 +24,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Arial', 'Helvetica', 'sans-serif'],
+        sans: ['Montserrat', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
       boxShadow: {
         un: 'var(--un-shadow)',
@@ -33,10 +33,6 @@ export default {
         'un-lg': 'var(--un-shadow-lg)',
         'un-inset': 'var(--un-shadow-inset)',
         'un-glow': 'var(--un-shadow-glow)',
-      },
-      backgroundImage: {
-        'un-brand': 'linear-gradient(105deg, #185FA5 0%, #1a6bb8 42%, #378ADD 100%)',
-        'un-sheen': 'var(--un-sheen)',
       },
     },
   },

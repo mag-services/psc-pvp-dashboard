@@ -49,9 +49,9 @@ export function RecruitmentTracker({ rows }: Props) {
             enabled: true,
             style: {
               fontSize: '10px',
-              fontWeight: '400',
+              fontWeight: '500',
               color: '#4A5568',
-              fontFamily: 'Arial, Helvetica, sans-serif',
+              fontFamily: 'Montserrat, sans-serif',
             },
           },
         },
@@ -74,26 +74,20 @@ export function RecruitmentTracker({ rows }: Props) {
   return (
     <div className="space-y-6">
       <header className="un-page-header">
-        <h1 className="text-[22px] font-bold tracking-tight text-un-fg">Recruitment tracker</h1>
+        <h1 className="text-[21px] font-semibold tracking-tight text-un-fg">Recruitment tracker</h1>
         <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-un-secondary">
           Pipeline status, cost still sitting in “Not Started”, and the small set of posts where recruitment has
           moved forward.
         </p>
       </header>
 
-      <div className="un-elevated relative overflow-hidden rounded-lg border border-un-border border-l-4 border-l-accent bg-un-wash/80 p-4 dark:bg-un-wash/50">
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-accent/[0.06] via-transparent to-primary/[0.04]"
-          aria-hidden
-        />
-        <div className="relative">
-          <p className="text-[12px] font-bold text-un-fg">Methodological note</p>
-        <p className="mt-1 text-[12px] leading-relaxed text-un-secondary">
-          Almost all vacancies default to <strong className="font-semibold text-un-fg">Not Started</strong> (
-          {formatInt(notStartedRows.length)} of {formatInt(rows.length)}). Smaller categories are shown with on-bar
-          counts; read against the dominant backlog category.
-        </p>
-        </div>
+      <div className="rounded-md border border-un-border border-l-4 border-l-accent bg-un-wash p-4 shadow-un-sm dark:bg-un-wash/70">
+          <p className="text-[12px] font-semibold uppercase tracking-wide text-un-fg">Methodological note</p>
+          <p className="mt-2 text-[12px] font-normal leading-relaxed text-un-secondary">
+            Almost all vacancies default to <strong className="font-semibold text-un-fg">Not Started</strong> (
+            {formatInt(notStartedRows.length)} of {formatInt(rows.length)}). Smaller categories are shown with on-bar
+            counts; read against the dominant backlog category.
+          </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">

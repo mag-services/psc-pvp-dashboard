@@ -101,7 +101,7 @@ export function MinistryDrillDown({ rows }: Props) {
     <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="un-page-header min-w-0 flex-1">
-          <h1 className="text-[22px] font-bold tracking-tight text-un-fg">Ministry drill-down</h1>
+          <h1 className="text-[21px] font-semibold tracking-tight text-un-fg">Ministry drill-down</h1>
           <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-un-secondary">
             Focus on departments, salary scales, and highest-cost posts within a ministry.
           </p>
@@ -109,7 +109,7 @@ export function MinistryDrillDown({ rows }: Props) {
         <label className="flex flex-col gap-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-un-tertiary">
           Ministry filter
           <select
-            className="min-w-[220px] rounded-lg border border-un-border bg-un-surface px-3 py-2 text-[13px] font-normal text-un-fg shadow-un-sm outline-none transition-shadow focus:border-primary focus:shadow-un-md focus:ring-2 focus:ring-primary/25"
+            className="min-w-[220px] rounded border border-un-border bg-un-surface px-3 py-2 text-[13px] font-normal text-un-fg shadow-un-sm outline-none focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             value={selectedMinistry}
             onChange={(e) => setMinistry(e.target.value)}
           >
