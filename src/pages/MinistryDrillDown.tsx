@@ -8,8 +8,10 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useEffect, useMemo, useState } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
+import { PageBreadcrumb } from '../components/Breadcrumb';
 import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
+import { truncateChartCategory } from '../lib/chartHelpers';
 import { deptStatusMatrix, postsByDepartment, topSalaryScales } from '../lib/data';
 import { formatInt, formatVuv } from '../lib/format';
 import type { VacancyRow } from '../lib/types';
@@ -17,6 +19,10 @@ import type { VacancyRow } from '../lib/types';
 type Props = { rows: VacancyRow[] };
 
 const colHelper = createColumnHelper<VacancyRow>();
+
+function escTooltipText(s: string) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 export function MinistryDrillDown({ rows }: Props) {
   const { theme } = useTheme();
@@ -52,13 +58,29 @@ export function MinistryDrillDown({ rows }: Props) {
   const deptChart = useMemo(
     (): Highcharts.Options => ({
       chart: { type: 'column', height: 360 },
-      title: { text: 'Vacant posts by department' },
-      xAxis: { categories: deptCounts.map((d) => d.department), labels: { rotation: -35 } },
+      title: { text: '' },
+      xAxis: {
+        categories: deptCounts.map((d) => d.department || '—'),
+        labels: {
+          rotation: -35,
+          formatter: function () {
+            return truncateChartCategory(String(this.value));
+          },
+        },
+      },
       yAxis: { min: 0, title: { text: 'Post count' }, allowDecimals: false },
       legend: { enabled: false },
       plotOptions: { column: { borderRadius: 0, borderWidth: 0, color: '#185FA5' as Highcharts.ColorString } },
       series: [{ type: 'column', name: 'Posts', data: deptCounts.map((d) => d.count) }],
-      tooltip: { pointFormat: '<b>{point.y}</b> posts' },
+      tooltip: {
+        shared: false,
+        pointFormatter: function () {
+          const idx = this.index ?? 0;
+          const full = deptCounts[idx]?.department || '—';
+          const y = Number(this.y);
+          return `<b>${escTooltipText(full)}</b><br/><b>${y}</b> posts`;
+        },
+      },
     }),
     [deptCounts],
   );
@@ -66,13 +88,29 @@ export function MinistryDrillDown({ rows }: Props) {
   const scaleChart = useMemo(
     (): Highcharts.Options => ({
       chart: { type: 'column', height: 380 },
-      title: { text: 'Posts by salary scale (top 15)' },
-      xAxis: { categories: scaleTop.map((s) => s.scale), labels: { rotation: -35 } },
+      title: { text: '' },
+      xAxis: {
+        categories: scaleTop.map((s) => s.scale),
+        labels: {
+          rotation: -35,
+          formatter: function () {
+            return truncateChartCategory(String(this.value), 36);
+          },
+        },
+      },
       yAxis: { min: 0, title: { text: 'Post count' }, allowDecimals: false },
       legend: { enabled: false },
       plotOptions: { column: { borderRadius: 0, borderWidth: 0, color: '#378ADD' as Highcharts.ColorString } },
       series: [{ type: 'column', name: 'Posts', data: scaleTop.map((s) => s.count) }],
-      tooltip: { pointFormat: '<b>{point.y}</b> posts' },
+      tooltip: {
+        shared: false,
+        pointFormatter: function () {
+          const idx = this.index ?? 0;
+          const full = scaleTop[idx]?.scale ?? String(this.category ?? '');
+          const y = Number(this.y);
+          return `<b>${escTooltipText(full)}</b><br/><b>${y}</b> posts`;
+        },
+      },
     }),
     [scaleTop],
   );
@@ -99,6 +137,7 @@ export function MinistryDrillDown({ rows }: Props) {
 
   return (
     <div className="space-y-6">
+      <PageBreadcrumb />
       <header className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="un-page-header min-w-0 flex-1">
           <h1 className="text-[21px] font-semibold tracking-tight text-un-fg">Ministry drill-down</h1>
@@ -136,10 +175,16 @@ export function MinistryDrillDown({ rows }: Props) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Panel title="">
+        <Panel title="Vacant posts by department">
+          <p className="mb-3 text-[12px] leading-relaxed text-un-secondary">
+            Compare unit load inside the selected ministry. Hover a bar for the full department label.
+          </p>
           <HighchartsReact key={theme} highcharts={Highcharts} options={deptChart} />
         </Panel>
-        <Panel title="">
+        <Panel title="Posts by salary scale (top 15)">
+          <p className="mb-3 text-[12px] leading-relaxed text-un-secondary">
+            Where pay bands cluster; hover for the full scale name.
+          </p>
           <HighchartsReact key={theme} highcharts={Highcharts} options={scaleChart} />
         </Panel>
       </div>

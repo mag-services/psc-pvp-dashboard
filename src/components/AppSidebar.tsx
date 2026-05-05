@@ -50,13 +50,16 @@ export function AppSidebar({ onNavigate }: Props) {
             key={item.id}
             to={item.path}
             onClick={() => onNavigate?.()}
-            className={({ isActive }) =>
-              `no-underline whitespace-nowrap rounded-sm border-l-2 border-y-0 border-r-0 border-transparent px-3 py-2.5 text-left text-[13px] font-medium leading-snug md:py-2 ${
+            className={({ isActive }) => {
+              const home = item.id === 'executive';
+              return `no-underline whitespace-nowrap rounded-sm border-l-2 border-y-0 border-r-0 border-transparent px-3 py-2.5 text-left text-[13px] leading-snug md:py-2 ${
                 isActive
                   ? 'border-l-primary bg-un-wash font-semibold text-un-fg'
-                  : 'text-un-secondary hover:bg-un-canvas hover:text-un-fg'
-              }`
-            }
+                  : home
+                    ? 'font-semibold text-un-fg/90 hover:bg-un-canvas hover:text-un-fg'
+                    : 'font-medium text-un-secondary hover:bg-un-canvas hover:text-un-fg'
+              }`;
+            }}
           >
             {item.label}
           </NavLink>

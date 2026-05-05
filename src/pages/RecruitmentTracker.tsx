@@ -3,6 +3,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { useMemo } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
 import { CHART_FONT, chartMutedLabelColor, chartSecondaryBarColor } from '../lib/chartTheme';
+import { PageBreadcrumb } from '../components/Breadcrumb';
 import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
 import { ministryStatusMatrix, statusCounts, sum } from '../lib/data';
@@ -29,14 +30,14 @@ export function RecruitmentTracker({ rows }: Props) {
     const secondaryBar = chartSecondaryBarColor(theme);
     return {
       chart: { type: 'bar', height: 320 },
-      title: { text: 'Recruitment status pipeline' },
+      title: { text: '' },
       subtitle: {
         text: `${(notStartedShare * 100).toFixed(1)}% of posts are still "Not Started". Data labels summarise each segment.`,
         style: { fontSize: '11px', color: muted },
       },
       xAxis: {
         categories: breakdown.map((d) => d.status),
-        title: { text: null },
+        title: { text: '' },
       },
       yAxis: {
         min: 0,
@@ -78,6 +79,7 @@ export function RecruitmentTracker({ rows }: Props) {
 
   return (
     <div className="space-y-6">
+      <PageBreadcrumb />
       <header className="un-page-header">
         <h1 className="text-[21px] font-semibold tracking-tight text-un-fg">Recruitment tracker</h1>
         <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-un-secondary">
@@ -110,10 +112,10 @@ export function RecruitmentTracker({ rows }: Props) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Panel title="">
-          <HighchartsReact key={theme} highcharts={Highcharts} options={statusChart} />
-        </Panel>
         <Panel title="Posts outside “Not Started”">
+          <p className="mb-3 text-[12px] leading-relaxed text-un-secondary">
+            Exceptions to the default backlog — same posts visualised in the status chart to the right on large screens.
+          </p>
           <div className="max-h-[340px] un-table-shell">
             <table className="min-w-full text-left text-[13px]">
               <thead className="un-thead">
@@ -146,6 +148,9 @@ export function RecruitmentTracker({ rows }: Props) {
           {activeRows.length === 0 ? (
             <p className="mt-3 text-[13px] text-un-secondary">No rows with non-default status.</p>
           ) : null}
+        </Panel>
+        <Panel title="Recruitment status pipeline">
+          <HighchartsReact key={theme} highcharts={Highcharts} options={statusChart} />
         </Panel>
       </div>
 
