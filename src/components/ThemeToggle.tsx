@@ -42,7 +42,7 @@ export function ThemeToggle() {
   const isDark = theme === 'dark';
 
   return (
-    <div className="mt-auto flex justify-center border-t border-un-border px-3 py-3">
+    <div className="flex justify-center border-t border-un-border px-3 py-3">
       <button
         type="button"
         onClick={toggleTheme}

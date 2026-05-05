@@ -1,0 +1,61 @@
+# When THIS DIRECTORY is your Git repo root (e.g. github.com/mag-services/psc-pvp-dashboard).
+
+name: GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Regenerate CSV from Excel (if workbook committed)
+        if: hashFiles('Ministries_PVP_Clean.xlsx') != ''
+        run: pip install pandas openpyxl --quiet && python scripts/generate-data.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install and build
+        run: npm ci && npm run build:pages
+
+      - name: Ensure index is production (not dev TypeScript src)
+        run: |
+          if grep -qE 'src/main\.tsx|/src/main' dist/index.html; then
+            echo "::error::dist/index.html still references src/main.tsx. Use built dist only."
+            exit 1
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

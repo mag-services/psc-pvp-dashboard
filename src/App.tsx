@@ -1,17 +1,14 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
-import { ThemeToggle } from './components/ThemeToggle';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { AppSidebar } from './components/AppSidebar';
 import { loadVacancyRows } from './lib/data';
-import type { PageId, VacancyRow } from './lib/types';
+import type { VacancyRow } from './lib/types';
 import { ExecutiveOverview } from './pages/ExecutiveOverview';
 import { MinistryDrillDown } from './pages/MinistryDrillDown';
 import { RecruitmentTracker } from './pages/RecruitmentTracker';
+import { useMediaQuery } from './hooks/useMediaQuery';
 
-const NAV: { id: PageId; path: string; label: string }[] = [
-  { id: 'executive', path: '/executive', label: 'Executive overview' },
-  { id: 'ministry', path: '/ministry', label: 'Ministry drill-down' },
-  { id: 'recruitment', path: '/recruitment', label: 'Recruitment tracker' },
-];
+const SIDEBAR_ID = 'app-sidebar';
 
 function MainContent({
   rows,
@@ -57,10 +54,33 @@ function MainContent({
   return <>{children(rows)}</>;
 }
 
+function IconMenu({ open }: { open: boolean }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      className="h-5 w-5 shrink-0"
+      aria-hidden
+    >
+      {open ? (
+        <path strokeWidth={2} strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
+      ) : (
+        <path strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+      )}
+    </svg>
+  );
+}
+
 export default function App() {
   const [rows, setRows] = useState<VacancyRow[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const busy = !error && rows === null;
+
+  const isMdUp = useMediaQuery('(min-width: 768px)');
+  const closeSidebar = () => setSidebarOpen(false);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -73,46 +93,81 @@ export default function App() {
     return () => ac.abort();
   }, []);
 
+  useEffect(() => {
+    if (isMdUp) setSidebarOpen(false);
+  }, [isMdUp]);
+
+  useEffect(() => {
+    if (!sidebarOpen || isMdUp) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [sidebarOpen, isMdUp]);
+
+  useEffect(() => {
+    if (!sidebarOpen || isMdUp) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSidebarOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [sidebarOpen, isMdUp]);
+
+  const drawerOpen = sidebarOpen && !isMdUp;
+
   return (
     <div className="flex min-h-full flex-col bg-transparent">
       <div className="flex shrink-0 flex-col border-b border-un-border md:border-b-0" aria-hidden>
         <div className="h-1 bg-primary" />
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col md:flex-row">
-        <aside className="flex shrink-0 flex-col border-b border-un-border bg-un-surface shadow-un-sm md:sticky md:top-0 md:h-screen md:w-64 md:overflow-y-auto md:border-b-0 md:border-r md:border-un-border">
-          <div className="border-b border-white/10 bg-primary px-5 py-4 text-white">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-white/90">
+      <div className="relative flex min-h-0 flex-1 flex-col md:flex-row">
+        {drawerOpen ? (
+          <button
+            type="button"
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[1px] md:hidden motion-reduce:backdrop-blur-none"
+            aria-label="Close menu"
+            onClick={closeSidebar}
+          />
+        ) : null}
+
+        <header className="sticky top-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b border-un-border bg-un-surface px-3 shadow-un-sm md:hidden">
+          <button
+            type="button"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded border border-un-border bg-un-surface text-un-fg shadow-un-sm hover:bg-un-canvas focus:outline-none focus-visible:ring-1 focus-visible:ring-primary"
+            aria-expanded={sidebarOpen}
+            aria-controls={SIDEBAR_ID}
+            onClick={() => setSidebarOpen((o) => !o)}
+          >
+            <span className="sr-only">{sidebarOpen ? 'Close menu' : 'Open menu'}</span>
+            <IconMenu open={sidebarOpen} />
+          </button>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[10px] font-semibold uppercase tracking-widest text-un-tertiary">
               Public Service Commission
             </p>
-            <p className="mt-2 text-[15px] font-semibold leading-snug tracking-tight text-white" id="app-product-title">
-              Priority vacant posts
-            </p>
-            <p className="mt-2 text-[11px] font-medium leading-snug text-white/80">Executive dashboard — internal use</p>
+            <p className="truncate text-[13px] font-semibold leading-snug text-un-fg">Priority vacant posts</p>
           </div>
+        </header>
 
-          <nav className="flex gap-0.5 overflow-x-auto px-2 py-2 md:flex-col md:overflow-visible md:px-1 md:py-2" aria-label="Dashboard sections">
-            {NAV.map((item) => (
-              <NavLink
-                key={item.id}
-                to={item.path}
-                className={({ isActive }) =>
-                  `no-underline whitespace-nowrap rounded-sm border-l-2 border-y-0 border-r-0 border-transparent px-3 py-2.5 text-left text-[13px] font-medium leading-snug md:py-2 ${
-                    isActive
-                      ? 'border-l-primary bg-un-wash font-semibold text-un-fg'
-                      : 'text-un-secondary hover:bg-un-canvas hover:text-un-fg'
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
-
-          <ThemeToggle />
+        <aside
+          id={SIDEBAR_ID}
+          aria-label="Dashboard navigation"
+          className={[
+            'flex shrink-0 flex-col overflow-hidden border-un-border bg-un-surface shadow-un-sm',
+            'fixed inset-y-0 left-0 z-50 w-[min(20rem,calc(100vw-2.5rem))] border-r transition-transform duration-200 ease-out motion-reduce:transition-none',
+            isMdUp || sidebarOpen ? 'translate-x-0' : '-translate-x-full',
+            'md:relative md:inset-y-auto md:left-auto md:z-0 md:h-screen md:w-64 md:max-w-none md:translate-x-0 md:overflow-y-auto md:border-b-0 md:border-r',
+            'md:sticky md:top-0',
+          ].join(' ')}
+          aria-hidden={!isMdUp && !sidebarOpen ? true : undefined}
+        >
+          <AppSidebar onNavigate={closeSidebar} />
         </aside>
 
-        <main className="min-w-0 flex-1 overflow-auto px-4 py-6 md:px-10 md:py-9" aria-busy={busy}>
+        <main className="min-h-0 min-w-0 flex-1 overflow-auto px-4 py-6 md:px-10 md:py-9" aria-busy={busy}>
           <Routes>
             <Route path="/" element={<Navigate to="/executive" replace />} />
             <Route

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#185FA5" />
+  <title>User guide — Updating the Priority Vacant Posts dashboard</title>
+  <style>
+    :root {
+      --brand: #185fa5;
+      --text: #1a1a1a;
+      --muted: #4a5568;
+      --border: #dce0e7;
+      --bg: #ffffff;
+      --wash: #f6f7f9;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #e8edf4;
+        --muted: #a8b8cc;
+        --border: #384256;
+        --bg: #161e2e;
+        --wash: #141c2a;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, Segoe UI, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+    header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 3px solid var(--brand);
+      background: var(--wash);
+    }
+    header h1 { margin: 0 0 0.25rem; font-size: 1.35rem; }
+    header .sub { margin: 0; font-size: 0.9rem; color: var(--muted); }
+    main { max-width: 52rem; padding: 1.5rem 1.5rem 3rem; margin: 0 auto; }
+    h2 { margin: 2rem 0 0.75rem; font-size: 1.05rem; border-left: 4px solid var(--brand); padding-left: 0.6rem; }
+    h3 { margin: 1.25rem 0 0.5rem; font-size: 1rem; }
+    p, li { color: var(--text); }
+    .muted { color: var(--muted); font-size: 0.92rem; }
+    pre, code { font-family: ui-monospace, Consolas, monospace; font-size: 0.84rem; }
+    pre {
+      background: var(--wash);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+      border-radius: 4px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 0.75rem 0; }
+    th, td { border: 1px solid var(--border); padding: 0.45rem 0.6rem; text-align: left; }
+    th { background: var(--wash); }
+    .note {
+      border-left: 4px solid var(--brand);
+      padding: 0.75rem 1rem;
+      background: var(--wash);
+      margin: 1rem 0;
+      font-size: 0.92rem;
+    }
+    a { color: var(--brand); }
+    .back { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Priority vacant posts — web dashboard</h1>
+    <p class="sub">How to refresh data, rebuild, and publish</p>
+    <p class="sub" style="margin-top:0.5rem">Static copy for in-app help. Source: <code>docs/user-guide.qmd</code> (Quarto) in the repository.</p>
+  </header>
+  <main>
+    <p>This guide explains which <strong>Excel workbook</strong> feeds the dashboard, how to regenerate <strong>CSV</strong>, and how changes reach <strong>GitHub Pages</strong>.</p>
+
+    <h2>Hosted deployment (PSC PVP on GitHub)</h2>
+    <p>Published copies may use:</p>
+    <ul>
+      <li><strong>Source code:</strong> <a href="https://github.com/mag-services/psc-pvp-dashboard">github.com/mag-services/psc-pvp-dashboard</a></li>
+      <li><strong>Live site:</strong> <a href="https://mag-services.github.io/psc-pvp-dashboard/">mag-services.github.io/psc-pvp-dashboard/</a></li>
+    </ul>
+
+    <h3>How to update data on GitHub — recommended path</h3>
+    <p>Pages serves the <strong>built</strong> site; vacancy data comes from committed <strong>CSV</strong> (Excel is never read in the browser).</p>
+    <ol>
+      <li>Clone or pull: <code>git clone https://github.com/mag-services/psc-pvp-dashboard.git</code> and open the repo folder (where <code>package.json</code> lives).</li>
+      <li>Edit <code>Ministries_PVP_Clean.xlsx</code>, worksheet <strong>data</strong>, save.</li>
+      <li>Place the workbook at <strong>repo root</strong> next to <code>package.json</code>, or (if the app lives in a subfolder) one level above that app folder.</li>
+      <li>Regenerate CSV:
+        <pre>pip install pandas openpyxl
+npm run generate-data</pre>
+        Writes <code>public/data/ministries_pvp.csv</code>.
+      </li>
+      <li>Commit and push to <code>main</code>:
+        <pre>git add public/data/ministries_pvp.csv
+git commit -m "Update ministry vacancy CSV"
+git push origin main</pre>
+      </li>
+      <li>Open <strong>Actions</strong> on GitHub → wait until the Pages workflow succeeds.</li>
+      <li>Reload <a href="https://mag-services.github.io/psc-pvp-dashboard/">mag-services.github.io/psc-pvp-dashboard/</a> with hard-refresh (<kbd>Ctrl+F5</kbd>).</li>
+    </ol>
+
+    <div class="note">
+      <strong>CI:</strong> <code>npm run build:pages</code> builds the static app only unless your workflow explicitly runs Excel → CSV. Committing updated <strong>ministries_pvp.csv</strong> is the simplest way to refresh the live data.
+    </div>
+
+    <h3>Optional: store Excel on GitHub</h3>
+    <p>You can commit <code>Ministries_PVP_Clean.xlsx</code> at the repo root for backup or future automation—but the site reads <code>public/data/ministries_pvp.csv</code> until you regenerate and commit CSV (or automate that in Actions).</p>
+
+    <h2>Folder layout (typical)</h2>
+    <p><strong>Dashboard = repo root</strong> (e.g. <a href="https://github.com/mag-services/psc-pvp-dashboard">mag-services/psc-pvp-dashboard</a>).</p>
+    <pre>repo/
+├── Ministries_PVP_Clean.xlsx
+├── package.json
+├── scripts/generate-data.py
+├── public/data/ministries_pvp.csv
+└── src/</pre>
+    <p><strong>Dashboard in a subfolder</strong> (nested monorepo).</p>
+    <pre>repo/
+├── Ministries_PVP_Clean.xlsx
+├── psc-pvp-dashboard/
+│   ├── package.json
+│   ├── scripts/generate-data.py
+│   └── public/data/ministries_pvp.csv</pre>
+    <p class="muted">The export script looks for <code>Ministries_PVP_Clean.xlsx</code> beside the dashboard app first, then in the parent folder.</p>
+
+    <h2>Which Excel file to update?</h2>
+    <table>
+      <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>File name</td><td><code>Ministries_PVP_Clean.xlsx</code></td></tr>
+        <tr><td>Location</td><td><strong>Repo root</strong> next to <code>package.json</code>, or the parent folder if the app is nested.</td></tr>
+        <tr><td>Worksheet</td><td>Must be exactly <code>data</code> (the export uses <code>sheet_name="data"</code>).</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Required columns (first row headers)</h2>
+    <table>
+      <thead><tr><th>Column</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><code>MINISTRY</code></td><td>Blank ministry rows are skipped.</td></tr>
+        <tr><td><code>DEPARTMENT</code></td><td>Department</td></tr>
+        <tr><td><code>PRIORITY VACANT POSTS</code></td><td>Post title in tables</td></tr>
+        <tr><td><code>POST NUMBER</code></td><td>Identifier</td></tr>
+        <tr><td><code>SALARY SCALE</code></td><td>Charts / labels</td></tr>
+        <tr><td><code>ANNUAL SALARY</code></td><td>Number (commas allowed)</td></tr>
+        <tr><td><code>RECRUITMENT STATUS</code></td><td>Empty / <code>Unknown Status</code> → <code>Not Started</code></td></tr>
+      </tbody>
+    </table>
+    <p class="muted">Renaming columns requires updating <code>src/lib/data.ts</code>.</p>
+
+    <h2>Update steps (local)</h2>
+    <h3>1. Edit the workbook</h3>
+    <p>Open <code>Ministries_PVP_Clean.xlsx</code>, edit the <code>data</code> sheet, save.</p>
+
+    <h3>2. Regenerate the CSV</h3>
+    <p>From the dashboard folder (alongside <code>package.json</code>):</p>
+    <pre>npm run generate-data</pre>
+    <p>Requires <strong>Python 3</strong>, <strong>pandas</strong>, and an Excel engine (e.g. <strong>openpyxl</strong>):</p>
+    <pre>pip install pandas openpyxl</pre>
+    <p class="muted">Writes <code>public/data/ministries_pvp.csv</code>. If the workbook is missing, place <code>Ministries_PVP_Clean.xlsx</code> beside <code>package.json</code> or in the parent folder (see script error message).</p>
+
+    <h3>3. Check locally</h3>
+    <pre>npm install
+npm run dev</pre>
+    <p>Or full build + preview (<code>npm run build</code> runs <code>generate-data</code> first; <code>npm run build:pages</code> does not):</p>
+    <pre>npm run build
+npm run preview</pre>
+
+    <div class="note">
+      <strong>GitHub Actions:</strong> Typical CI uses <code>npm run build:pages</code> (TypeScript + Vite only). Push an updated <strong>ministries_pvp.csv</strong> so the live site shows new data unless your workflow regenerates CSV.
+    </div>
+
+    <h3>4. Push to GitHub</h3>
+    <ol>
+      <li>Commit the updated <code>ministries_pvp.csv</code> (and the <code>.xlsx</code> if your team keeps it in Git).</li>
+      <li>Push to <code>main</code> (or your deploy branch).</li>
+      <li>Wait for GitHub Pages / Actions to finish.</li>
+    </ol>
+
+    <h2>How the app loads data</h2>
+    <p>Static React + Vite app. It fetches <code>./data/ministries_pvp.csv</code> at runtime — it does <strong>not</strong> read Excel in the browser. Routes: <code>#/executive</code>, <code>#/ministry</code>, <code>#/recruitment</code>.</p>
+
+    <h2>Troubleshooting</h2>
+    <table>
+      <thead><tr><th>Symptom</th><th>Check</th></tr></thead>
+      <tbody>
+        <tr><td>Workbook missing</td><td>Put <code>Ministries_PVP_Clean.xlsx</code> at repo root next to <code>package.json</code> or in the parent folder of the app.</td></tr>
+        <tr><td>Sheet error</td><td>Worksheet must be named <code>data</code>.</td></tr>
+        <tr><td>Rows missing</td><td><code>MINISTRY</code> must be non-empty.</td></tr>
+        <tr><td>Old data on Pages</td><td>Commit/deploy latest CSV; rerun workflow.</td></tr>
+        <tr><td>Python errors</td><td>Install pandas + openpyxl for the Python you use.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Quarto (optional)</h2>
+    <p>To regenerate a styled HTML from the source manual:</p>
+    <pre>cd docs
+quarto render user-guide.qmd</pre>
+    <p class="muted">After rendering, you can copy the output into <code>psc-pvp-dashboard/public/docs/user-guide.html</code> to refresh this in-app page.</p>
+
+    <p class="back"><a href="../#/executive">← Back to dashboard</a></p>
+  </main>
+</body>
+</html>
