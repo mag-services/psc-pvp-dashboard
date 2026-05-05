@@ -23,9 +23,7 @@ Requires the parent folder pushed as your Git repo (this app lives under `psc-pv
 
 Your site URL will be **`https://<username>.github.io/<repository>/`**.  
 
-The Actions workflow sets **`VITE_BASE`** to **`/<repository>/`** (or **`/`** for a **`yourname.github.io`** repository) so script and CSS URLs resolve correctly. Using only **`base: './'`** often causes a **blank page** on Pages: `./assets/…` can resolve to `https://<user>.github.io/assets/…` instead of `…/github.io/<repo>/assets/…` when the URL has no trailing slash. The console may still mention **`main.tsx`** because of source maps.
-
-Browsers may still request **`/favicon.ico`** at the hostname root (harmless 404 on project sites). A small inline SVG favicon `<link rel="icon">` is included so the tab icon does not depend on that file.
+The Actions workflow uploads **only `psc-pvp-dashboard/dist`**. Do **not** set Pages to “Deploy from branch” using the project **source** folder — that serves `index.html` with **`/src/main.tsx`**, which gives **404 / blank page** because TypeScript is never built on GitHub.
 
 ### If the Git repo is only this folder (`psc-pvp-dashboard` is the root)
 
