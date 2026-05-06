@@ -27,7 +27,10 @@ jobs:
           python-version: '3.12'
 
       - name: Regenerate CSV from Excel (if workbook committed)
-        if: hashFiles('ministries_pvp.xlsx') != '' || hashFiles('Ministries_PVP_Clean.xlsx') != ''
+        if: |
+          hashFiles('public/data/ministries_pvp.xlsx') != '' ||
+          hashFiles('ministries_pvp.xlsx') != '' ||
+          hashFiles('Ministries_PVP_Clean.xlsx') != ''
         run: pip install pandas openpyxl --quiet && python scripts/generate-data.py
 
       - uses: actions/setup-node@v4
