@@ -29,14 +29,12 @@ def _find_workbook() -> Path | None:
     return None
 
 
-XLSX: Path | None = _find_workbook()
-
 OUT_DIR = ROOT / "public" / "data"
 OUT_CSV = OUT_DIR / "ministries_pvp.csv"
 
 
 def main() -> None:
-    wb = XLSX or _find_workbook()
+    wb = _find_workbook()
     if wb is None:
         checked = [str(d / n) for d in _SEARCH_DIRS for n in _WORKBOOK_NAMES]
         raise SystemExit(

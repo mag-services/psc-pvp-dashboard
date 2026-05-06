@@ -24,6 +24,27 @@ function MainContent({
       <div className="rounded-md border border-un-border border-l-4 border-l-un-deep bg-un-wash p-4 text-un-fg shadow-un-sm">
         <p className="text-[13px] font-semibold">Could not load dataset</p>
         <p className="mt-1 text-[12px] text-un-secondary">{error}</p>
+        {(error.includes('404') || error.includes('generate-data')) ? (
+          <p className="mt-3 text-[12px] leading-relaxed text-un-secondary">
+            Only <strong className="font-semibold text-un-fg">CSV</strong> is loaded in the browser. If you committed{' '}
+            <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
+              ministries_pvp.xlsx
+            </code>{' '}
+            under{' '}
+            <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
+              public/data/
+            </code>{' '}
+            without running the export, run{' '}
+            <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
+              npm run generate-data
+            </code>{' '}
+            locally and commit the resulting{' '}
+            <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
+              ministries_pvp.csv
+            </code>{' '}
+            (or let GitHub Actions regenerate it when that step is enabled).
+          </p>
+        ) : null}
       </div>
     );
   }

@@ -14,8 +14,15 @@ function parseSalary(v: string | undefined): number {
 
 export async function loadVacancyRows(signal?: AbortSignal): Promise<VacancyRow[]> {
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-  const res = await fetch(`${base}data/ministries_pvp.csv`, { signal });
-  if (!res.ok) throw new Error(`Failed to load data: ${res.status}`);
+  const url = `${base}data/ministries_pvp.csv`;
+  const res = await fetch(url, { signal });
+  if (!res.ok) {
+    const hint =
+      res.status === 404
+        ? ' Missing file: generate with npm run generate-data from ministries_pvp.xlsx, commit public/data/ministries_pvp.csv, then redeploy.'
+        : '';
+    throw new Error(`Failed to load data (${res.status}) ${url}.${hint}`);
+  }
   const text = await res.text();
   const parsed = Papa.parse<Record<string, string>>(text, {
     header: true,
