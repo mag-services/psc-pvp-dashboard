@@ -22,17 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Regenerate CSV from Excel (if workbook committed)
-        if: |
-          hashFiles('public/data/ministries_pvp.xlsx') != '' ||
-          hashFiles('ministries_pvp.xlsx') != '' ||
-          hashFiles('Ministries_PVP_Clean.xlsx') != ''
-        run: pip install pandas openpyxl --quiet && python scripts/generate-data.py
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'

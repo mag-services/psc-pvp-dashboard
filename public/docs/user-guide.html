@@ -1,182 +1,1136 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="color-scheme" content="light dark" />
-  <meta name="theme-color" content="#185FA5" />
-  <title>User guide — Updating the Priority Vacant Posts dashboard</title>
-  <style>
-    :root {
-      --brand: #185fa5;
-      --text: #1a1a1a;
-      --muted: #4a5568;
-      --border: #dce0e7;
-      --bg: #ffffff;
-      --wash: #f6f7f9;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --text: #e8edf4;
-        --muted: #a8b8cc;
-        --border: #384256;
-        --bg: #161e2e;
-        --wash: #141c2a;
-      }
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, Segoe UI, sans-serif;
-      font-size: 15px;
-      line-height: 1.5;
-      color: var(--text);
-      background: var(--bg);
-    }
-    header {
-      padding: 1.25rem 1.5rem;
-      border-bottom: 3px solid var(--brand);
-      background: var(--wash);
-    }
-    header h1 { margin: 0 0 0.25rem; font-size: 1.35rem; }
-    header .sub { margin: 0; font-size: 0.9rem; color: var(--muted); }
-    main { max-width: 52rem; padding: 1.5rem 1.5rem 3rem; margin: 0 auto; }
-    h2 { margin: 2rem 0 0.75rem; font-size: 1.05rem; border-left: 4px solid var(--brand); padding-left: 0.6rem; }
-    h3 { margin: 1.25rem 0 0.5rem; font-size: 1rem; }
-    p, li { color: var(--text); }
-    .muted { color: var(--muted); font-size: 0.92rem; }
-    pre, code { font-family: ui-monospace, Consolas, monospace; font-size: 0.84rem; }
-    pre {
-      background: var(--wash);
-      border: 1px solid var(--border);
-      padding: 0.75rem 1rem;
-      overflow-x: auto;
-      border-radius: 4px;
-    }
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 0.75rem 0; }
-    th, td { border: 1px solid var(--border); padding: 0.45rem 0.6rem; text-align: left; }
-    th { background: var(--wash); }
-    .note {
-      border-left: 4px solid var(--brand);
-      padding: 0.75rem 1rem;
-      background: var(--wash);
-      margin: 1rem 0;
-      font-size: 0.92rem;
-    }
-    a { color: var(--brand); }
-    .back { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Priority vacant posts — web dashboard</h1>
-    <p class="sub">How to refresh data, rebuild, and publish</p>
-    <p class="sub" style="margin-top:0.5rem">Static copy for in-app help. Source: <code>docs/user-guide.qmd</code> (Quarto) in the repository.</p>
-  </header>
-  <main>
-    <p>This guide explains which <strong>Excel workbook</strong> defines the dataset, how CSV is produced for the live site, and how to publish updates on <strong>GitHub Pages</strong>.</p>
 
-    <h2>Hosted deployment (PSC PVP on GitHub)</h2>
-    <p>Published copies may use:</p>
-    <ul>
-      <li><strong>Source code:</strong> <a href="https://github.com/mag-services/psc-pvp-dashboard">github.com/mag-services/psc-pvp-dashboard</a></li>
-      <li><strong>Live site:</strong> <a href="https://mag-services.github.io/psc-pvp-dashboard/">mag-services.github.io/psc-pvp-dashboard/</a></li>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="color-scheme" content="light dark" />
+
+  <meta name="theme-color" content="#185FA5" />
+
+  <title>User guide — Updating the Priority Vacant Posts dashboard</title>
+
+  <style>
+
+    :root {
+
+      --brand: #185fa5;
+
+      --text: #1a1a1a;
+
+      --muted: #4a5568;
+
+      --border: #dce0e7;
+
+      --bg: #ffffff;
+
+      --wash: #f6f7f9;
+
+    }
+
+    @media (prefers-color-scheme: dark) {
+
+      :root {
+
+        --text: #e8edf4;
+
+        --muted: #a8b8cc;
+
+        --border: #384256;
+
+        --bg: #161e2e;
+
+        --wash: #141c2a;
+
+      }
+
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+
+      margin: 0;
+
+      font-family: system-ui, Segoe UI, sans-serif;
+
+      font-size: 15px;
+
+      line-height: 1.55;
+
+      color: var(--text);
+
+      background: var(--bg);
+
+    }
+
+    header {
+
+      padding: 1.25rem 1.5rem;
+
+      border-bottom: 3px solid var(--brand);
+
+      background: var(--wash);
+
+    }
+
+    header h1 { margin: 0 0 0.25rem; font-size: 1.35rem; }
+
+    header .sub { margin: 0; font-size: 0.9rem; color: var(--muted); }
+
+    main { max-width: 46rem; padding: 1.5rem 1.5rem 3rem; margin: 0 auto; }
+
+    h2 {
+
+      margin: 2rem 0 0.85rem;
+
+      font-size: 1.08rem;
+
+      border-left: 4px solid var(--brand);
+
+      padding-left: 0.65rem;
+
+    }
+
+    h3 { margin: 1.5rem 0 0.65rem; font-size: 1rem; }
+
+    p, li { color: var(--text); }
+
+    .lead { font-size: 1.05rem; color: var(--text); margin-bottom: 1.25rem; }
+
+    .muted { color: var(--muted); font-size: 0.92rem; }
+
+    .small { font-size: 0.85rem; }
+
+    pre, code { font-family: ui-monospace, Consolas, monospace; font-size: 0.84rem; }
+
+    pre {
+
+      background: var(--wash);
+
+      border: 1px solid var(--border);
+
+      padding: 0.75rem 1rem;
+
+      overflow-x: auto;
+
+      border-radius: 4px;
+
+      font-size: 0.8rem;
+
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 0.75rem 0; }
+
+    th, td { border: 1px solid var(--border); padding: 0.45rem 0.55rem; text-align: left; vertical-align: top; }
+
+    th { background: var(--wash); }
+
+    .note {
+
+      border-left: 4px solid var(--brand);
+
+      padding: 0.75rem 1rem;
+
+      background: var(--wash);
+
+      margin: 1rem 0;
+
+      font-size: 0.92rem;
+
+    }
+
+    details.tech { margin: 1.5rem 0; border: 1px solid var(--border); border-radius: 6px; padding: 0 0.75rem; }
+
+    details.tech summary { cursor: pointer; padding: 0.75rem 0; font-weight: 600; color: var(--muted); }
+
+    details.tech > *:not(summary) { padding-bottom: 0.75rem; }
+
+    a { color: var(--brand); }
+
+    .back { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.9rem; }
+
+    kbd {
+
+      padding: 0.1rem 0.35rem;
+
+      border-radius: 3px;
+
+      border: 1px solid var(--border);
+
+      background: var(--wash);
+
+      font-size: 0.85rem;
+
+      font-family: ui-monospace, Consolas, monospace;
+
+    }
+
+
+
+    /* One guided step + screenshot pair */
+
+    .step-block {
+
+      margin: 1.75rem 0;
+
+      padding-bottom: 0.25rem;
+
+      scroll-margin-top: 0.75rem;
+
+      border-bottom: 1px solid var(--border);
+
+    }
+
+    .step-block:last-of-type { border-bottom: none; }
+
+    .step-badge {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-width: 2rem;
+
+      height: 2rem;
+
+      margin-right: 0.45rem;
+
+      border-radius: 6px;
+
+      background: var(--brand);
+
+      color: #fff;
+
+      font-weight: 700;
+
+      font-size: 0.88rem;
+
+      vertical-align: middle;
+
+    }
+
+    .step-heading {
+
+      display: flex;
+
+      align-items: center;
+
+      margin: 0 0 0.5rem;
+
+      font-size: 1rem;
+
+      font-weight: 650;
+
+      line-height: 1.35;
+
+      color: var(--text);
+
+    }
+
+    .step-block p { margin: 0 0 0.5rem; }
+
+    .step-block p:last-child { margin-bottom: 0; }
+
+
+
+    figure.doc-screenshot { margin: 0.85rem 0 0; }
+
+    .doc-screenshot-slot {
+
+      min-height: 11rem;
+
+      border: 2px dashed var(--border);
+
+      border-radius: 6px;
+
+      background: var(--wash);
+
+      padding: 1.25rem;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+    }
+
+    .doc-screenshot-slot.short { min-height: 9rem; }
+
+    .doc-screenshot-slot.tall { min-height: 13rem; }
+
+    .doc-screenshot-slot p { margin: 0.35rem 0; max-width: 34rem; font-size: 0.88rem; color: var(--muted); }
+
+    .doc-screenshot-slot strong { color: var(--text); font-size: 0.92rem; }
+
+    .shot-file { margin-top: 0.65rem !important; font-size: 0.78rem !important; opacity: 0.95; word-break: break-all; }
+
+    img.doc-screenshot-img {
+
+      display: block;
+
+      width: 100%;
+
+      max-width: 100%;
+
+      height: auto;
+
+      border-radius: 4px;
+
+      border: 1px solid var(--border);
+
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    }
+
+    figure.doc-screenshot figcaption {
+
+      margin-top: 0.45rem;
+
+      font-size: 0.82rem;
+
+      color: var(--muted);
+
+      line-height: 1.45;
+
+    }
+
+
+
+    dl.glossary dt { margin: 0.6rem 0 0.2rem; font-weight: 600; }
+
+    dl.glossary dd { margin: 0 0 0 0; padding-left: 1rem; color: var(--muted); font-size: 0.92rem; }
+
+
+
+    ul.check { padding-left: 1.35rem; }
+
+    ul.check li { margin: 0.35rem 0; }
+
+  </style>
+
+  <!--
+
+    Screenshot files to add under public/docs/images/ (PNG or WebP).
+
+    Replace each .doc-screenshot-slot div with:
+
+    <img class="doc-screenshot-img" src="./images/__FILENAME__" alt="…" loading="lazy" />
+
+
+
+    Suggested filenames (match figcaption):
+
+    intro-01-live-dashboard-overview.png
+
+
+
+    First-time GitHub Desktop:
+
+    first-01-download-github-desktop.png
+
+    first-02-sign-in-to-github.png
+
+    first-03-file-clone-repository.png
+
+    first-04-clone-dialog-url-path.png
+
+    first-05-repository-open-in-desktop.png
+
+
+
+    Every update:
+
+    update-01-select-repository-left-sidebar.png
+
+    update-02-current-branch-main.png
+
+    update-03-menu-repository-show-in-explorer.png
+
+    update-04-file-explorer-public-data-folder.png
+
+    update-05-excel-open-ministries-workbook.png
+
+    update-06-excel-click-data-sheet-tab.png
+
+    update-07-excel-save-and-close.png
+
+    update-08-github-desktop-changes-listed.png
+
+    update-09-type-summary-commit-to-main.png
+
+    update-10-click-push-origin.png
+
+    update-11-github-actions-green-check.png
+
+    update-12-open-live-dashboard-browser.png
+
+    update-13-hard-refresh-ctrl-f5.png
+
+  -->
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1>Priority vacant posts — web dashboard</h1>
+
+    <p class="sub">Step-by-step update guide (you do not need to know coding or Git commands)</p>
+
+    <p class="sub" style="margin-top:0.35rem;font-size:0.82rem">For ICT: source also in <code>docs/user-guide.qmd</code> if you rebuild with Quarto.</p>
+
+  </header>
+
+  <main>
+
+    <p class="lead">
+
+      When you finish this guide once, updating the charts on the internet is the same routine every month: edit one Excel file on your
+
+      computer, save it, click two buttons in <strong>GitHub Desktop</strong>, wait for the green tick online, refresh the dashboard website.
+
+      Everything below assumes you never used GitHub before — only Windows (or Mac) and Excel.
+
+    </p>
+
+
+
+    <h2>Ways to reach this page</h2>
+
+    <ul class="check">
+
+      <li>From the sidebar in the dashboard → <strong>Update guide</strong></li>
+
+      <li>Open <code class="small">docs/user-guide.html</code> in the project folder (only if IT gave you files directly)</li>
+
     </ul>
 
-    <h3>How to update data on GitHub</h3>
-    <p>The live site reads committed <strong><code>public/data/ministries_pvp.csv</code></strong> only (not Excel in the browser). That file is generated from the workbook by <code>scripts/generate-data.py</code> or exported manually.</p>
-    <ol>
-      <li>Use <strong><code>ministries_pvp.xlsx</code></strong> (preferred) or legacy <code>Ministries_PVP_Clean.xlsx</code>, sheet <strong>data</strong>. Column headers must match the names below.</li>
-      <li>Regenerate <strong><code>ministries_pvp.csv</code></strong> — e.g. run <code>npm run generate-data</code> from the app folder (Python + pandas + openpyxl), or Excel <strong>Save As</strong> UTF-8 CSV from the <code>data</code> sheet.</li>
-      <li>On <a href="https://github.com/mag-services/psc-pvp-dashboard">GitHub</a>, open <code>public/data/</code> → replace <code>ministries_pvp.csv</code> (upload or edit) → commit to <strong><code>main</code></strong>.</li>
-      <li>Open <strong>Actions</strong> and wait until the Pages deployment succeeds.</li>
-      <li>Reload <a href="https://mag-services.github.io/psc-pvp-dashboard/">the live site</a> with hard-refresh (<kbd>Ctrl+F5</kbd>).</li>
-    </ol>
+
+
+    <h2>Show me the dashboard website</h2>
+
+    <p>
+
+      ICT may give you one link everyone uses internally. If you publish to the example below, bookmark it.<br />
+
+      <a href="https://mag-services.github.io/psc-pvp-dashboard/">mag-services.github.io/psc-pvp-dashboard/</a>
+
+    </p>
+
+    <!--
+
+      <img class="doc-screenshot-img" src="./images/intro-01-live-dashboard-overview.png"
+
+        alt="Web browser showing Priority Vacant Posts executive overview" loading="lazy" />
+
+    -->
+
+    <figure class="doc-screenshot">
+
+      <div class="doc-screenshot-slot tall">
+
+        <p><strong>Screenshot</strong></p>
+
+        <p>Open the dashboard in Chrome or Edge — aim for Executive overview.</p>
+
+        <p class="shot-file"><code>intro-01-live-dashboard-overview.png</code></p>
+
+      </div>
+
+      <figcaption>What leaders see once data is published (your updates appear after Steps 13–15 below).</figcaption>
+
+    </figure>
+
+
+
+    <h2>Few words, plain English</h2>
+
+    <dl class="glossary">
+
+      <dt>GitHub</dt>
+
+      <dd>An online locker where ICT stores the dashboard project files. Nothing here replaces your normal Office use — GitHub Desktop is the door you use.</dd>
+
+      <dt>Repository (“repo”)</dt>
+
+      <dd>One GitHub folder that holds everything for this dashboard. You get one copy onto your laptop when you Clone (first-time steps).</dd>
+
+      <dt>Clone</dt>
+
+      <dd>Downloading that folder once so edits happen in the official copy ICT tracks.</dd>
+
+      <dt>Commit</dt>
+
+      <dd>Writes a labelled save-checkpoint (“I changed the vacancy numbers today”).</dd>
+
+      <dt>Push</dt>
+
+      <dd>Sends that checkpoint to GitHub so the internet can rebuild the dashboard.</dd>
+
+    </dl>
+
+
+
+    <h2>Programs you install once</h2>
+
+    <ul class="check">
+
+      <li><strong>Excel</strong> (you already use it)</li>
+
+      <li><strong>GitHub Desktop</strong> — free download: <a href="https://desktop.github.com/">desktop.github.com</a></li>
+
+      <li>A <strong>GitHub account</strong> (email/password). Ask ICT to add your account so you can Push to your organisation’s repo if it is restricted.</li>
+
+    </ul>
+
+    <figure class="doc-screenshot">
+
+      <div class="doc-screenshot-slot">
+
+        <p><strong>Screenshot</strong></p>
+
+        <p>GitHub Desktop download page (“Download for Windows”).</p>
+
+        <p class="shot-file"><code>first-01-download-github-desktop.png</code></p>
+
+      </div>
+
+      <figcaption>Download and run the installer. Accept defaults unless ICT says differently.</figcaption>
+
+    </figure>
+
+    <figure class="doc-screenshot">
+
+      <div class="doc-screenshot-slot">
+
+        <p><strong>Screenshot</strong></p>
+
+        <p>Inside GitHub Desktop after install — prompt to Sign in / Create account.</p>
+
+        <p class="shot-file"><code>first-02-sign-in-to-github.png</code></p>
+
+      </div>
+
+      <figcaption>Complete sign-in inside the Desktop app.</figcaption>
+
+    </figure>
+
+
+
+    <h2>First-time only · Get the project folder on your PC</h2>
+
+    <p class="muted">Skip this blue section once your repository already appears in the left sidebar of GitHub Desktop.</p>
+
+
+
+    <section class="step-block" id="s-a1">
+
+      <h3 class="step-heading"><span class="step-badge">A</span> Open Clone from the menu bar</h3>
+
+      <p>Start <strong>GitHub Desktop</strong>. Top menu → <strong>File</strong> → <strong>Clone repository…</strong></p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot short">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Showing <strong>File → Clone repository</strong> highlighted.</p>
+
+          <p class="shot-file"><code>first-03-file-clone-repository.png</code></p>
+
+        </div>
+
+        <figcaption>Windows menu bar sits under the window title.</figcaption>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s-a2">
+
+      <h3 class="step-heading"><span class="step-badge">B</span>Paste ICT’s GitHub URL and pick a folder on your laptop</h3>
+
+      <p>
+
+        ICT gives you something like<br />
+
+        <code>github.com/org-name/psc-pvp-dashboard</code><br />
+
+        Paste the URL tab or locate the repo list. Pick a Parent folder somewhere under <strong>This PC → Documents</strong> you can find easily — for example Documents\Work\GitHub\
+
+      </p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot tall">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Clone dialog filled: URL chosen, Local path readable, Clone button visible.</p>
+
+          <p class="shot-file"><code>first-04-clone-dialog-url-path.png</code></p>
+
+        </div>
+
+        <figcaption>After Clone completes, Desktop opens that repository automatically.</figcaption>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s-a3">
+
+      <h3 class="step-heading"><span class="step-badge">C</span> Confirm the dashboard repo is open</h3>
+
+      <p>Left sidebar: select the dashboard repository name ICT told you.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Repository selected — title bar shows repo name.</p>
+
+          <p class="shot-file"><code>first-05-repository-open-in-desktop.png</code></p>
+
+        </div>
+
+        <figcaption>You return here every future update starting at Section <strong>Every time you refresh the vacancy numbers</strong>.</figcaption>
+
+      </figure>
+
+    </section>
+
+
 
     <div class="note">
-      <strong>Optional — CI from Excel:</strong> If <code>ministries_pvp.xlsx</code> or <code>Ministries_PVP_Clean.xlsx</code> is committed at the <strong>repo root</strong>, GitHub Actions can run the export script (Python + pandas). Otherwise, committing the updated CSV alone is enough.
+
+      Path memory aid: ICT may say the workbook lives inside <code>psc-pvp-dashboard/public/data/</code>. If you do not recognise these words,
+
+      just follow Screenshots update-03 and update-04 — they show clicks and folders.
+
     </div>
 
-    <h3>Optional: store Excel on GitHub</h3>
-    <p>You can commit <code>ministries_pvp.xlsx</code> at the repo root for backup or so Actions can regenerate <code>public/data/ministries_pvp.csv</code> on each push (if that step is enabled in the workflow).</p>
 
-    <h2>Folder layout (typical)</h2>
-    <p><strong>Dashboard = repo root</strong> (e.g. <a href="https://github.com/mag-services/psc-pvp-dashboard">mag-services/psc-pvp-dashboard</a>).</p>
-    <pre>repo/
-├── ministries_pvp.xlsx
-├── package.json
-├── scripts/generate-data.py
-├── public/data/ministries_pvp.csv
-└── src/</pre>
-    <p><strong>Dashboard in a subfolder</strong> (nested monorepo).</p>
-    <pre>repo/
-├── ministries_pvp.xlsx
-├── psc-pvp-dashboard/
-│   ├── package.json
-│   ├── scripts/generate-data.py
-│   └── public/data/ministries_pvp.csv</pre>
-    <p class="muted">The export script looks for <code>ministries_pvp.xlsx</code> first, then <code>Ministries_PVP_Clean.xlsx</code>, beside the dashboard app or in the parent folder.</p>
 
-    <h2>Which Excel file to update?</h2>
+    <h2>Every time you refresh the vacancy numbers</h2>
+
+    <p>About <strong>5 minutes</strong> after Push, ICT’s automatic build publishes the workbook; then you reload the dashboard site.</p>
+
+
+
+    <section class="step-block" id="s1">
+
+      <h3 class="step-heading"><span class="step-badge">1</span> Open GitHub Desktop and choose this repository</h3>
+
+      <p>Launch GitHub Desktop. In the left list, click your <strong>Priority vacant posts</strong> (or PSC PVP) repository.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Left sidebar highlighting the correct repo.</p>
+
+          <p class="shot-file"><code>update-01-select-repository-left-sidebar.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s2">
+
+      <h3 class="step-heading"><span class="step-badge">2</span> Confirm you publish from the <strong>main</strong> branch</h3>
+
+      <p>The top-middle dropdown should read <strong>Current branch · main</strong> (sometimes <strong>master</strong>). If ICT uses another branch they will inform you separately.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot short">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p><strong>Current branch: main</strong> dropdown visible.</p>
+
+          <p class="shot-file"><code>update-02-current-branch-main.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s3">
+
+      <h3 class="step-heading"><span class="step-badge">3</span> Open Windows File Explorer inside the cloned copy</h3>
+
+      <p>Menu bar → <strong>Repository</strong> → <strong>Show in Explorer</strong> (Mac: Show in Finder). A Explorer window pops up showing the dashboard files.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Dropdown <strong>Show in Explorer</strong> + Explorer window foreground.</p>
+
+          <p class="shot-file"><code>update-03-menu-repository-show-in-explorer.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s4">
+
+      <h3 class="step-heading"><span class="step-badge">4</span> Browse to folder <code class="small">public\data</code></h3>
+
+      <p>
+
+        Double-click folders until Explorer address bar resembles<br />
+
+        <code>...\psc-pvp-dashboard\public\data</code>
+
+        inside <code>Downloads</code> or <code>Documents</code> depending where you cloned. You seek one file:<br />
+
+        <strong>ministries_pvp.xlsx</strong>
+
+      </p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot tall">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Explorer window with <strong>public\data</strong> path visible and workbook file listed.</p>
+
+          <p class="shot-file"><code>update-04-file-explorer-public-data-folder.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s5">
+
+      <h3 class="step-heading"><span class="step-badge">5</span> Open workbook in Excel</h3>
+
+      <p>Double-click <strong>ministries_pvp.xlsx</strong>. Wait for Excel fully loaded.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Excel window + filename in title.</p>
+
+          <p class="shot-file"><code>update-05-excel-open-ministries-workbook.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s6">
+
+      <h3 class="step-heading"><span class="step-badge">6</span> Click worksheet tab <strong>data</strong> at spreadsheet bottom</h3>
+
+      <p>You must edit the sheet named exactly <strong>data</strong> (capital/lowercase tolerated). Sheet tabs lie along Excel’s footer.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot short">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p><strong>data</strong> tab selected / highlighted circle optional.</p>
+
+          <p class="shot-file"><code>update-06-excel-click-data-sheet-tab.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s7">
+
+      <h3 class="step-heading"><span class="step-badge">7</span> Stay on row 1 for column meaning — edit rows underneath</h3>
+
+      <p>Never delete or rename the first header row. Change cells underneath (ministry fields, vacancy text, salaries, Recruitment status text). ICT may share a cheat-sheet for allowable status words.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Highlighted header row intact + arrow to data row edits.</p>
+
+          <p class="shot-file"><code>update-07-excel-data-rows-editing-example.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s8">
+
+      <h3 class="step-heading"><span class="step-badge">8</span> Save (Ctrl + S), then close Excel</h3>
+
+      <p>Use <kbd>Ctrl</kbd> + <kbd>S</kbd> keyboard shortcut quick-save. Completely close Excel afterward so Desktop sees the newest file snapshot.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot short">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Optional: Excel ribbon Save icon hovered / “Saved” state.</p>
+
+          <p class="shot-file"><code>update-07-excel-save-and-close.png</code></p>
+
+        </div>
+
+      </figure>
+
+      <p class="small muted"><strong>Note:</strong> We reuse filename update-07 in two placeholders — ICT may rename to <code>update-07a</code>/<code>update-07b</code> if two separate images.</p>
+
+    </section>
+
+
+
+    <section class="step-block" id="s9">
+
+      <h3 class="step-heading"><span class="step-badge">9</span> Return Desktop — workbook listed under Changes</h3>
+
+      <p>Bring GitHub Desktop forward. Upper-left Changes tab should enumerate <strong>ministries_pvp.xlsx</strong> with +/- lines count.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot tall">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p><strong>Changes</strong> view + file checklist ticked green.</p>
+
+          <p class="shot-file"><code>update-08-github-desktop-changes-listed.png</code></p>
+
+        </div>
+
+      </figure>
+
+      <div class="note"><strong>If no file appears?</strong> You edited a different copy elsewhere. Always open through <strong>Show in Explorer</strong> from Step&nbsp;3 so paths match.</div>
+
+    </section>
+
+
+
+    <section class="step-block" id="s10">
+
+      <h3 class="step-heading"><span class="step-badge">10</span> Lower-left Summary box → type short description</h3>
+
+      <p>For example:<br /><em>“Updated vacancy postings — {month year}.”</em> Two word minimum satisfies requirement.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Summary textbox filled bottom-left Desktop.</p>
+
+          <p class="shot-file"><code>update-09-type-summary-commit-to-main.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s11">
+
+      <h3 class="step-heading"><span class="step-badge">11</span> Click blue <strong>Commit to main</strong></h3>
+
+      <p>Select it once — button greys/disables until next edit.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot short">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p><strong>Commit to main</strong> button clickable state.</p>
+
+          <p class="shot-file"><code>update-09b-commit-to-main-buttons.png</code></p>
+
+        </div>
+
+        <figcaption>Sometimes combined with screenshot 09 in one panoramic.</figcaption>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s12">
+
+      <h3 class="step-heading"><span class="step-badge">12</span> Publish local commit — press <strong>Push origin</strong></h3>
+
+      <p>If label reads <strong>Publish branch</strong> first-ever push ICT enabled for you instead, identical idea — confirms upload.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Top ribbon <strong>Push origin</strong> highlighted.</p>
+
+          <p class="shot-file"><code>update-10-click-push-origin.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s13">
+
+      <h3 class="step-heading"><span class="step-badge">13</span> Browser → GitHub.com → Actions → wait green ✓ under latest run</h3>
+
+      <p>Open your repository website (same URL cloned). Tab <strong>Actions</strong> row top. Wait circle finishes — green checkbox ≈ Published.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot tall">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>List row <strong>GitHub Pages · succeeded</strong> green.</p>
+
+          <p class="shot-file"><code>update-11-github-actions-green-check.png</code></p>
+
+        </div>
+
+      </figure>
+
+      <p class="small muted">If red ✕ — STOP; forward screenshot ICT helpdesk rather than reloading dashboard.</p>
+
+    </section>
+
+
+
+    <section class="step-block" id="s14">
+
+      <h3 class="step-heading"><span class="step-badge">14</span> Reload dashboard webpage</h3>
+
+      <p>Open your internal dashboard URL new tab (<a href="https://mag-services.github.io/psc-pvp-dashboard/">example publish</a>).</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Fresh browser showing Executive overview KPI numbers.</p>
+
+          <p class="shot-file"><code>update-12-open-live-dashboard-browser.png</code></p>
+
+        </div>
+
+      </figure>
+
+    </section>
+
+
+
+    <section class="step-block" id="s15">
+
+      <h3 class="step-heading"><span class="step-badge">15</span> Deep refresh clears cache</h3>
+
+      <p>Windows quick sequence <kbd>Ctrl</kbd>&nbsp;<kbd>F5</kbd> one press while focus inside browser pane. Alternate: hold Ctrl click Refresh icon toolbar.</p>
+
+      <figure class="doc-screenshot">
+
+        <div class="doc-screenshot-slot short">
+
+          <p><strong>Screenshot</strong></p>
+
+          <p>Annotated Ctrl+F5 callout atop browser screenshot.</p>
+
+          <p class="shot-file"><code>update-13-hard-refresh-ctrl-f5.png</code></p>
+
+        </div>
+
+      </figure>
+
+      <p class="muted">Compare totals against Excel totals — reconcile before reporting onward.</p>
+
+    </section>
+
+
+
+    <div class="note">
+
+      <strong>Privacy:</strong> Public GitHub repos make the workbook file publicly downloadable identical to screenshots if someone guesses filenames.
+
+      Only commit information approved for widest audience ICT configured.
+
+    </div>
+
+
+
+    <h2>Cheat-sheet · Excel columns Row&nbsp;1 (do not rename)</h2>
+
     <table>
-      <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+
+      <thead><tr><th>Column</th><th>Meaning in dashboard</th></tr></thead>
+
       <tbody>
-        <tr><td>File name</td><td><code>ministries_pvp.xlsx</code> (preferred) or <code>Ministries_PVP_Clean.xlsx</code></td></tr>
-        <tr><td>Location</td><td><strong>Repo root</strong> next to <code>package.json</code>, or the parent folder if the app is nested.</td></tr>
-        <tr><td>Worksheet</td><td>Must be named <code>data</code> (<strong>case-insensitive</strong> — e.g. <code>Data</code>). The export resolves the sheet automatically.</td></tr>
+
+        <tr><td><code>MINISTRY</code></td><td>Blank ministry — entire spreadsheet row disappears from dashboard.</td></tr>
+
+        <tr><td><code>DEPARTMENT</code></td><td>Department text.</td></tr>
+
+        <tr><td><code>PRIORITY VACANT POSTS</code></td><td>Vacancy job title wording.</td></tr>
+
+        <tr><td><code>POST NUMBER</code></td><td>Case / post ID text.</td></tr>
+
+        <tr><td><code>SALARY SCALE</code></td><td>Scale label analytics.</td></tr>
+
+        <tr><td><code>ANNUAL SALARY</code></td><td>Numbers only (commas accepted).</td></tr>
+
+        <tr><td><code>RECRUITMENT STATUS</code></td><td>Must match controlled list below; blank → <code>Unknown Status</code>.</td></tr>
+
       </tbody>
+
     </table>
 
-    <h2>Required columns (first row headers)</h2>
-    <table>
-      <thead><tr><th>Column</th><th>Use</th></tr></thead>
-      <tbody>
-        <tr><td><code>MINISTRY</code></td><td>Blank ministry rows are skipped.</td></tr>
-        <tr><td><code>DEPARTMENT</code></td><td>Department</td></tr>
-        <tr><td><code>PRIORITY VACANT POSTS</code></td><td>Post title in tables</td></tr>
-        <tr><td><code>POST NUMBER</code></td><td>Identifier</td></tr>
-        <tr><td><code>SALARY SCALE</code></td><td>Charts / labels</td></tr>
-        <tr><td><code>ANNUAL SALARY</code></td><td>Number (commas allowed)</td></tr>
-        <tr><td><code>RECRUITMENT STATUS</code></td><td>Use values from the controlled list below. Empty cells become <code>Unknown Status</code>. Headline KPIs treat <strong>Vacant</strong> and <strong>Unknown Status</strong> as the backlog bucket.</td></tr>
-      </tbody>
-    </table>
-    <p class="muted">Renaming columns requires updating <code>src/lib/data.ts</code> and possibly <code>src/lib/recruitmentStatus.ts</code>.</p>
 
-    <h2>Recruitment status values (workbook)</h2>
-    <p>Use exactly these strings in <code>RECRUITMENT STATUS</code> (other text still appears in tables and charts after the listed columns).</p>
-    <ol style="columns: 2; gap: 1.5rem; padding-left: 1.25rem;">
+
+    <h2>Recruitment status spellings (copy-paste safe)</h2>
+
+    <ol style="columns: 2; gap: 1.25rem; padding-left: 1.15rem; font-size: 0.92rem;">
+
       <li>Unknown Status</li>
-      <li>Vacant</li>
-      <li>Advertisement</li>
-      <li>Recruitment Process</li>
-      <li>Awaits Commission Decision</li>
-      <li>Occupied (Acting)</li>
-      <li>Occupied (Contract)</li>
-      <li>Filled</li>
-      <li>Filled (Internship)</li>
-      <li>Filled (Temporary)</li>
-    </ol>
-    <h2>How the app loads data</h2>
-    <p>Static React + Vite app. It fetches <code>./data/ministries_pvp.csv</code> at runtime — it does <strong>not</strong> read Excel in the browser. Routes: <code>#/executive</code>, <code>#/ministry</code>, <code>#/recruitment</code>.</p>
 
-    <h2>Troubleshooting</h2>
+      <li>Vacant</li>
+
+      <li>Advertisement</li>
+
+      <li>Recruitment Process</li>
+
+      <li>Awaits Commission Decision</li>
+
+      <li>Occupied (Acting)</li>
+
+      <li>Occupied (Contract)</li>
+
+      <li>Filled</li>
+
+      <li>Filled (Internship)</li>
+
+      <li>Filled (Temporary)</li>
+
+    </ol>
+
+    <p class="muted small">Dashboard treats <strong>Vacant</strong> + <strong>Unknown Status</strong> together as “backlog” headline metrics.</p>
+
+
+
+    <h2>When something goes wrong</h2>
+
     <table>
-      <thead><tr><th>Symptom</th><th>Check</th></tr></thead>
+
+      <thead><tr><th>You see…</th><th>Try…</th></tr></thead>
+
       <tbody>
-        <tr><td>Workbook missing</td><td>Put <code>ministries_pvp.xlsx</code> or <code>Ministries_PVP_Clean.xlsx</code> at repo root next to <code>package.json</code> or in the parent folder of the app.</td></tr>
-        <tr><td>Sheet error</td><td>Worksheet must be named <code>data</code>.</td></tr>
-        <tr><td>Rows missing</td><td><code>MINISTRY</code> must be non-empty.</td></tr>
-        <tr><td>Old data on Pages</td><td>Commit/deploy latest CSV; rerun workflow.</td></tr>
+
+        <tr><td>GitHub Desktop empty after saving Excel</td><td>Wrong folder copy — repeat Steps 3–4 from Show in Explorer.</td></tr>
+
+        <tr><td>Desktop says cannot Push / authentication</td><td>Sign out / sign in GitHub Desktop; ask ICT repository permission.</td></tr>
+
+        <tr><td>Actions red failure</td><td>Email ICT screenshot — do not mass-email dataset.</td></tr>
+
+        <tr><td>Dashboard error “Could not load dataset”</td><td>Workbook missing from latest successful Action build — ICT validates path <code>public/data/ministries_pvp.xlsx</code>.</td></tr>
+
+        <tr><td>Numbers old after green tick</td><td>Hard refresh Step&nbsp;15; wait another minute slow connection.</td></tr>
+
       </tbody>
+
     </table>
 
-    <h2>Quarto (optional)</h2>
-    <p>To regenerate a styled HTML from the source manual:</p>
-    <pre>cd docs
-quarto render user-guide.qmd</pre>
-    <p class="muted">After rendering, you can copy the output into <code>psc-pvp-dashboard/public/docs/user-guide.html</code> to refresh this in-app page.</p>
+
+
+    <details class="tech">
+
+      <summary>Technical notes (optional — ICT / developers)</summary>
+
+      <p>Static Vite build; runtime fetches <code>./data/ministries_pvp.xlsx</code> via SheetJS. Sheet tab <code>data</code> case-insensitive.</p>
+
+      <p>Monorepo layout example:</p>
+
+      <pre>repo/psc-pvp-dashboard/public/data/ministries_pvp.xlsx</pre>
+
+      <p>Quarto rebuild: <code>cd docs &amp;&amp; quarto render user-guide.qmd</code> then sync HTML into <code>public/docs/user-guide.html</code> if desired.</p>
+
+    </details>
+
+
 
     <p class="back"><a href="../#/executive">← Back to dashboard</a></p>
+
   </main>
+
 </body>
+
 </html>
+
