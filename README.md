@@ -20,6 +20,8 @@ Static React + Vite dashboard (UN / institutional styling). At runtime it **fetc
 
 Details: **`public/docs/user-guide.html`** (sidebar **Update guide**).
 
+Quarto source: **`public/docs/user-guide.qmd`** — from this app folder run **`quarto render public/docs/user-guide.qmd`** (images in **`public/docs/images/`**).
+
 
 
 ## Deploy on GitHub Pages
