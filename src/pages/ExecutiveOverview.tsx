@@ -7,6 +7,7 @@ import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
 import {
   countActiveRecruitment,
+  countPipelineBacklog,
   deptSummary,
   ministryAggregates,
   sum,
@@ -56,7 +57,7 @@ export function ExecutiveOverview({ rows }: Props) {
   const totalPosts = rows.length;
   const totalSalary = sum(rows, (r) => r.annualSalary);
   const activeRecruitment = countActiveRecruitment(rows);
-  const notStartedCount = rows.filter((r) => r.recruitmentStatus === 'Not Started').length;
+  const backlogCount = countPipelineBacklog(rows);
   const activeShare = totalPosts ? (activeRecruitment / totalPosts) * 100 : 0;
 
   const byMinPosts = ministryAggregates(rows);
@@ -230,11 +231,16 @@ export function ExecutiveOverview({ rows }: Props) {
         : 'bg-transparent text-un-tertiary hover:bg-un-canvas hover:text-un-secondary'
     }`;
 
+  const movementLine =
+    activeRecruitment === 0
+      ? 'No posts yet show a status outside the Vacant / unknown backlog.'
+      : activeShare >= 10
+        ? `${activeShare.toFixed(1)}% of posts show recruitment progress or another outcome (not Vacant / unknown).`
+        : `${formatInt(activeRecruitment)} post${activeRecruitment === 1 ? '' : 's'} show recruitment progress or another outcome (not Vacant / unknown).`;
+
   const insightStory = `${formatInt(totalPosts)} priority vacancy record${totalPosts === 1 ? '' : 's'} (${formatInt(
-    notStartedCount,
-  )} still marked “Not Started”). ${activeShare >= 10 ? `${activeShare.toFixed(1)}%` : formatInt(activeRecruitment)} ${
-    activeShare >= 10 ? `have` : `post${activeRecruitment === 1 ? '' : 's'} have`
-  } some recruitment movement — focus cost and ministry drill-down below.`;
+    backlogCount,
+  )} Vacant or unknown status). ${movementLine}`;
 
   return (
     <div className="space-y-6">
@@ -281,7 +287,7 @@ export function ExecutiveOverview({ rows }: Props) {
           variant="quiet"
           label="Posts with recruitment movement"
           value={formatInt(activeRecruitment)}
-          hint='Statuses other than "Not Started"'
+          hint="Advertisement and beyond, or Filled / Occupied — excludes Vacant / unknown"
         />
       </div>
 

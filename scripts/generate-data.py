@@ -1,4 +1,5 @@
-"""Export Ministries_PVP_Clean.xlsx to public/data/ministries_pvp.csv (stripped headers)."""
+"""Export ministries_pvp Excel workbook to public/data/ministries_pvp.csv for the static site."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -8,7 +9,10 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 # Repo root dashboard: workbook next to scripts/ inside repo.
 # Nested layout (repo contains psc-pvp-dashboard folder): workbook one level above app folder.
-_WORKBOOK_NAMES = ("Ministries_PVP_Clean.xlsx",)
+_WORKBOOK_NAMES = (
+    "ministries_pvp.xlsx",
+    "Ministries_PVP_Clean.xlsx",
+)
 _CANDIDATE_DIRS = (
     ROOT,
     ROOT.parent,
@@ -29,8 +33,11 @@ OUT_CSV = OUT_DIR / "ministries_pvp.csv"
 
 def main() -> None:
     if XLSX is None:
-        searched = ", ".join(str(d / _WORKBOOK_NAMES[0]) for d in _CANDIDATE_DIRS)
-        raise SystemExit(f"Missing workbook Ministries_PVP_Clean.xlsx. Checked: {searched}")
+        checked = [str(d / n) for d in _CANDIDATE_DIRS for n in _WORKBOOK_NAMES]
+        raise SystemExit(
+            "Missing workbook. Place ministries_pvp.xlsx (preferred) or Ministries_PVP_Clean.xlsx "
+            f"beside package.json or one folder above. Checked:\n  " + "\n  ".join(checked)
+        )
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     df = pd.read_excel(XLSX, sheet_name="data")
     df.columns = df.columns.astype(str).str.strip()

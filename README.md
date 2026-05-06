@@ -1,13 +1,18 @@
 # OPSC Priority Vacant Posts (web dashboard)
 
-Static React + Vite dashboard (UN / institutional styling). Loads `public/data/ministries_pvp.csv`.
+Static React + Vite dashboard (UN / institutional styling). At runtime it loads **`public/data/ministries_pvp.csv`**, which is normally **generated from Excel** (not read in the browser).
 
 ## Published dashboard (PSC PVP on GitHub)
 
 - **Repo:** https://github.com/mag-services/psc-pvp-dashboard  
 - **Site:** https://mag-services.github.io/psc-pvp-dashboard/  
 
-**Updating live data:** Publish an updated **`public/data/ministries_pvp.csv`** on **`main`** (e.g. export the **`data`** sheet from **`Ministries_PVP_Clean.xlsx`** as UTF-8 CSV with the column names the app expects, then upload/edit on GitHub). Wait for **Actions** → GitHub Pages, then hard-refresh the live URL. Optional: commit **`Ministries_PVP_Clean.xlsx`** at repo root so CI can regenerate CSV.
+**Updating live data:**
+
+1. **`ministries_pvp.xlsx`** (preferred) or legacy **`Ministries_PVP_Clean.xlsx`**: worksheet **`data`**, same column headers as documented in **`public/docs/user-guide.html`**.
+2. Locally: `npm run generate-data` writes **`public/data/ministries_pvp.csv`**, then commit that CSV (or commit the workbook so CI can regenerate it).
+3. On **GitHub**, either replace **`public/data/ministries_pvp.csv`** or commit **`ministries_pvp.xlsx`** at repo root so Actions runs **`scripts/generate-data.py`** when the workflow enables that step.
+4. Wait for **Actions** → GitHub Pages, then hard-refresh the live URL.
 
 In-app instructions: sidebar **Update guide**, or **`public/docs/user-guide.html`**.
 
@@ -15,7 +20,7 @@ In-app instructions: sidebar **Update guide**, or **`public/docs/user-guide.html
 
 Requires the parent folder pushed as your Git repo (this app lives under `psc-pvp-dashboard/`).
 
-1. Commit **`public/data/ministries_pvp.csv`** (or commit **`Ministries_PVP_Clean.xlsx`** at the repo root so CI can regenerate the CSV automatically).
+1. Commit **`public/data/ministries_pvp.csv`** and/or **`ministries_pvp.xlsx`** (or legacy **`Ministries_PVP_Clean.xlsx`**) at the repo root so CI can regenerate CSV.
 2. **Repository → Settings → Pages** → **Build and deployment** → Source: **GitHub Actions**.
 3. Push to **`main`** (or **`master`**). The workflow **GitHub Pages** builds `psc-pvp-dashboard` and publishes `dist`.
 

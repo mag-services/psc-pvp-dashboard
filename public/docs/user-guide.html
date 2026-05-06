@@ -74,7 +74,7 @@
     <p class="sub" style="margin-top:0.5rem">Static copy for in-app help. Source: <code>docs/user-guide.qmd</code> (Quarto) in the repository.</p>
   </header>
   <main>
-    <p>This guide explains which <strong>Excel workbook</strong> defines the dataset, how the live site reads <strong>CSV</strong>, and how to publish updates on <strong>GitHub Pages</strong>.</p>
+    <p>This guide explains which <strong>Excel workbook</strong> defines the dataset, how CSV is produced for the live site, and how to publish updates on <strong>GitHub Pages</strong>.</p>
 
     <h2>Hosted deployment (PSC PVP on GitHub)</h2>
     <p>Published copies may use:</p>
@@ -84,44 +84,44 @@
     </ul>
 
     <h3>How to update data on GitHub</h3>
-    <p>The live site reads committed <strong><code>public/data/ministries_pvp.csv</code></strong> only (not Excel in the browser).</p>
+    <p>The live site reads committed <strong><code>public/data/ministries_pvp.csv</code></strong> only (not Excel in the browser). That file is generated from the workbook by <code>scripts/generate-data.py</code> or exported manually.</p>
     <ol>
-      <li>Use workbook <code>Ministries_PVP_Clean.xlsx</code>, sheet <strong>data</strong>. Ensure CSV column headers match the required names below.</li>
-      <li>Produce <strong><code>ministries_pvp.csv</code></strong> (UTF-8, comma-separated) — e.g. Excel <strong>Save As</strong> CSV from the <code>data</code> sheet.</li>
+      <li>Use <strong><code>ministries_pvp.xlsx</code></strong> (preferred) or legacy <code>Ministries_PVP_Clean.xlsx</code>, sheet <strong>data</strong>. Column headers must match the names below.</li>
+      <li>Regenerate <strong><code>ministries_pvp.csv</code></strong> — e.g. run <code>npm run generate-data</code> from the app folder (Python + pandas + openpyxl), or Excel <strong>Save As</strong> UTF-8 CSV from the <code>data</code> sheet.</li>
       <li>On <a href="https://github.com/mag-services/psc-pvp-dashboard">GitHub</a>, open <code>public/data/</code> → replace <code>ministries_pvp.csv</code> (upload or edit) → commit to <strong><code>main</code></strong>.</li>
       <li>Open <strong>Actions</strong> and wait until the Pages deployment succeeds.</li>
       <li>Reload <a href="https://mag-services.github.io/psc-pvp-dashboard/">the live site</a> with hard-refresh (<kbd>Ctrl+F5</kbd>).</li>
     </ol>
 
     <div class="note">
-      <strong>Optional — CI from Excel:</strong> If <code>Ministries_PVP_Clean.xlsx</code> is committed at the <strong>repo root</strong>, GitHub Actions can run the export script on the server (Python + pandas). Otherwise, committing the updated CSV alone is enough.
+      <strong>Optional — CI from Excel:</strong> If <code>ministries_pvp.xlsx</code> or <code>Ministries_PVP_Clean.xlsx</code> is committed at the <strong>repo root</strong>, GitHub Actions can run the export script (Python + pandas). Otherwise, committing the updated CSV alone is enough.
     </div>
 
     <h3>Optional: store Excel on GitHub</h3>
-    <p>You can commit <code>Ministries_PVP_Clean.xlsx</code> at the repo root for backup or so Actions can regenerate <code>public/data/ministries_pvp.csv</code> on each push (if that step is enabled in the workflow).</p>
+    <p>You can commit <code>ministries_pvp.xlsx</code> at the repo root for backup or so Actions can regenerate <code>public/data/ministries_pvp.csv</code> on each push (if that step is enabled in the workflow).</p>
 
     <h2>Folder layout (typical)</h2>
     <p><strong>Dashboard = repo root</strong> (e.g. <a href="https://github.com/mag-services/psc-pvp-dashboard">mag-services/psc-pvp-dashboard</a>).</p>
     <pre>repo/
-├── Ministries_PVP_Clean.xlsx
+├── ministries_pvp.xlsx
 ├── package.json
 ├── scripts/generate-data.py
 ├── public/data/ministries_pvp.csv
 └── src/</pre>
     <p><strong>Dashboard in a subfolder</strong> (nested monorepo).</p>
     <pre>repo/
-├── Ministries_PVP_Clean.xlsx
+├── ministries_pvp.xlsx
 ├── psc-pvp-dashboard/
 │   ├── package.json
 │   ├── scripts/generate-data.py
 │   └── public/data/ministries_pvp.csv</pre>
-    <p class="muted">The export script looks for <code>Ministries_PVP_Clean.xlsx</code> beside the dashboard app first, then in the parent folder.</p>
+    <p class="muted">The export script looks for <code>ministries_pvp.xlsx</code> first, then <code>Ministries_PVP_Clean.xlsx</code>, beside the dashboard app or in the parent folder.</p>
 
     <h2>Which Excel file to update?</h2>
     <table>
       <thead><tr><th>Item</th><th>Detail</th></tr></thead>
       <tbody>
-        <tr><td>File name</td><td><code>Ministries_PVP_Clean.xlsx</code></td></tr>
+        <tr><td>File name</td><td><code>ministries_pvp.xlsx</code> (preferred) or <code>Ministries_PVP_Clean.xlsx</code></td></tr>
         <tr><td>Location</td><td><strong>Repo root</strong> next to <code>package.json</code>, or the parent folder if the app is nested.</td></tr>
         <tr><td>Worksheet</td><td>Must be exactly <code>data</code> (the export uses <code>sheet_name="data"</code>).</td></tr>
       </tbody>
@@ -137,11 +137,25 @@
         <tr><td><code>POST NUMBER</code></td><td>Identifier</td></tr>
         <tr><td><code>SALARY SCALE</code></td><td>Charts / labels</td></tr>
         <tr><td><code>ANNUAL SALARY</code></td><td>Number (commas allowed)</td></tr>
-        <tr><td><code>RECRUITMENT STATUS</code></td><td>Empty / <code>Unknown Status</code> → <code>Not Started</code></td></tr>
+        <tr><td><code>RECRUITMENT STATUS</code></td><td>Use values from the controlled list below. Empty cells become <code>Unknown Status</code>. Headline KPIs treat <strong>Vacant</strong> and <strong>Unknown Status</strong> as the backlog bucket.</td></tr>
       </tbody>
     </table>
-    <p class="muted">Renaming columns requires updating <code>src/lib/data.ts</code>.</p>
+    <p class="muted">Renaming columns requires updating <code>src/lib/data.ts</code> and possibly <code>src/lib/recruitmentStatus.ts</code>.</p>
 
+    <h2>Recruitment status values (workbook)</h2>
+    <p>Use exactly these strings in <code>RECRUITMENT STATUS</code> (other text still appears in tables and charts after the listed columns).</p>
+    <ol style="columns: 2; gap: 1.5rem; padding-left: 1.25rem;">
+      <li>Unknown Status</li>
+      <li>Vacant</li>
+      <li>Advertisement</li>
+      <li>Recruitment Process</li>
+      <li>Awaits Commission Decision</li>
+      <li>Occupied (Acting)</li>
+      <li>Occupied (Contract)</li>
+      <li>Filled</li>
+      <li>Filled (Internship)</li>
+      <li>Filled (Temporary)</li>
+    </ol>
     <h2>How the app loads data</h2>
     <p>Static React + Vite app. It fetches <code>./data/ministries_pvp.csv</code> at runtime — it does <strong>not</strong> read Excel in the browser. Routes: <code>#/executive</code>, <code>#/ministry</code>, <code>#/recruitment</code>.</p>
 
@@ -149,7 +163,7 @@
     <table>
       <thead><tr><th>Symptom</th><th>Check</th></tr></thead>
       <tbody>
-        <tr><td>Workbook missing</td><td>Put <code>Ministries_PVP_Clean.xlsx</code> at repo root next to <code>package.json</code> or in the parent folder of the app.</td></tr>
+        <tr><td>Workbook missing</td><td>Put <code>ministries_pvp.xlsx</code> or <code>Ministries_PVP_Clean.xlsx</code> at repo root next to <code>package.json</code> or in the parent folder of the app.</td></tr>
         <tr><td>Sheet error</td><td>Worksheet must be named <code>data</code>.</td></tr>
         <tr><td>Rows missing</td><td><code>MINISTRY</code> must be non-empty.</td></tr>
         <tr><td>Old data on Pages</td><td>Commit/deploy latest CSV; rerun workflow.</td></tr>

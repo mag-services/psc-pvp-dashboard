@@ -1,11 +1,10 @@
 import Papa from 'papaparse';
 import type { VacancyRow } from './types';
-
-function normalizeStatus(raw: string): string {
-  const t = raw.trim();
-  if (!t || t === 'Unknown Status') return 'Not Started';
-  return t;
-}
+import {
+  isPipelineBacklogStatus,
+  normalizeRecruitmentStatus,
+  orderedRecruitmentStatuses,
+} from './recruitmentStatus';
 
 function parseSalary(v: string | undefined): number {
   if (v === undefined || v === '') return 0;
@@ -34,7 +33,7 @@ export async function loadVacancyRows(signal?: AbortSignal): Promise<VacancyRow[
       postNumber: (r['POST NUMBER'] ?? '').trim(),
       salaryScale: (r['SALARY SCALE'] ?? '').trim(),
       annualSalary: parseSalary(r['ANNUAL SALARY']),
-      recruitmentStatus: normalizeStatus((r['RECRUITMENT STATUS'] ?? '').trim()),
+      recruitmentStatus: normalizeRecruitmentStatus((r['RECRUITMENT STATUS'] ?? '').trim()),
     }));
 }
 
@@ -42,8 +41,14 @@ export function sum(rows: VacancyRow[], pick: (r: VacancyRow) => number): number
   return rows.reduce((a, r) => a + pick(r), 0);
 }
 
+/** Rows not in the Vacant / Unknown backlog bucket (Advertisement through Filled*, etc.). */
 export function countActiveRecruitment(rows: VacancyRow[]): number {
-  return rows.filter((r) => r.recruitmentStatus !== 'Not Started').length;
+  return rows.filter((r) => !isPipelineBacklogStatus(r.recruitmentStatus)).length;
+}
+
+/** Vacant or Unknown Status — backlog KPIs on executive / recruitment views. */
+export function countPipelineBacklog(rows: VacancyRow[]): number {
+  return rows.filter((r) => isPipelineBacklogStatus(r.recruitmentStatus)).length;
 }
 
 export function ministryAggregates(rows: VacancyRow[]) {
@@ -106,34 +111,25 @@ export function postsByDepartment(rows: VacancyRow[]) {
 }
 
 export function statusCounts(rows: VacancyRow[]) {
-  const order = [
-    'Not Started',
-    'In Progress',
-    'Succession Plan',
-    'Completed',
-    'Position Removed',
-  ];
+  const keys = orderedRecruitmentStatuses(rows);
   const map = new Map<string, number>();
   for (const r of rows) {
     const s = r.recruitmentStatus;
     map.set(s, (map.get(s) ?? 0) + 1);
   }
-  const known = order.filter((s) => map.has(s));
-  const rest = [...map.keys()].filter((s) => !order.includes(s)).sort();
-  const keys = [...known, ...rest];
   return keys.map((status) => ({ status, count: map.get(status) ?? 0 }));
 }
 
 export function ministryStatusMatrix(rows: VacancyRow[]) {
   const ministries = [...new Set(rows.map((r) => r.ministry))].sort();
-  const statuses = [...new Set(rows.map((r) => r.recruitmentStatus))].sort();
+  const statuses = orderedRecruitmentStatuses(rows);
   const cell = (m: string, s: string) => rows.filter((r) => r.ministry === m && r.recruitmentStatus === s).length;
   return { ministries, statuses, cell };
 }
 
 export function deptStatusMatrix(rows: VacancyRow[]) {
   const depts = [...new Set(rows.map((r) => r.department))].sort();
-  const statuses = [...new Set(rows.map((r) => r.recruitmentStatus))].sort();
+  const statuses = orderedRecruitmentStatuses(rows);
   const cell = (d: string, s: string) => rows.filter((r) => r.department === d && r.recruitmentStatus === s).length;
   return { depts, statuses, cell };
 }
