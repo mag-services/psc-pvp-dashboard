@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.local
 .env*
+# Excel lock files (never commit)
+~$*.xlsx
+~$*.xlsm
