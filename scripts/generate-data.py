@@ -33,6 +33,19 @@ OUT_DIR = ROOT / "public" / "data"
 OUT_CSV = OUT_DIR / "ministries_pvp.csv"
 
 
+def _sheet_data_name(workbook_path: Path) -> str:
+    """Worksheet must be named `data` (case-insensitive: Data, DATA, …)."""
+    xl = pd.ExcelFile(workbook_path)
+    for raw in xl.sheet_names:
+        name = raw.strip()
+        if name.casefold() == "data":
+            return raw
+    found = ", ".join(repr(s) for s in xl.sheet_names)
+    raise SystemExit(
+        f"Worksheet 'data' not found in {workbook_path}. Available sheets: {found}"
+    )
+
+
 def main() -> None:
     wb = _find_workbook()
     if wb is None:
@@ -45,10 +58,11 @@ def main() -> None:
             f"Checked:\n  " + "\n  ".join(checked)
         )
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    df = pd.read_excel(wb, sheet_name="data")
+    sheet = _sheet_data_name(wb)
+    df = pd.read_excel(wb, sheet_name=sheet)
     df.columns = df.columns.astype(str).str.strip()
     df.to_csv(OUT_CSV, index=False, encoding="utf-8")
-    print(f"Using workbook: {wb}")
+    print(f"Using workbook: {wb} (sheet: {sheet!r})")
     print(f"Wrote {len(df)} rows to {OUT_CSV}")
 
 
