@@ -1,0 +1,447 @@
+---
+title: "Priority Vacant Posts — Web dashboard user guide"
+subtitle: "Paste screenshots under `psc-pvp-dashboard/public/docs/images/` (exact filenames), then render — output is one self-contained HTML file"
+author: "OPSC / PSC ICT"
+date: last-modified
+lang: en
+
+engine: knitr
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "Contents"
+    number-sections: false
+    theme: cosmo
+    link-external-newwindow: true
+    css: styles.css
+    embed-resources: true
+
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup-helper
+#| include: false
+
+shot <- function(fname, caption = "Screenshot", hint = "") {
+  rel <- paste("images", fname, sep = "/")
+  wd <- normalizePath(getwd(), winslash = "/", mustWork = FALSE)
+
+  cand <- unique(normalizePath(
+    c(
+      file.path(wd, "images", fname),
+      file.path(wd, "public", "docs", "images", fname),
+      file.path(wd, "psc-pvp-dashboard", "public", "docs", "images", fname),
+      file.path(wd, "docs", "images", fname)
+    ),
+    winslash = "/",
+    mustWork = FALSE
+  ))
+
+  disk <- NA_character_
+  for (p in cand) if (nzchar(p) && file.exists(p)) {
+    disk <- p
+    break
+  }
+
+  pub_doc_roots <- unique(normalizePath(
+    c(
+      file.path(wd, "psc-pvp-dashboard", "public", "docs"),
+      file.path(wd, "public", "docs")
+    ),
+    winslash = "/", mustWork = FALSE
+  ))
+  for (r in pub_doc_roots) {
+    im <- file.path(r, "images")
+    if (dir.exists(r) && !dir.exists(im)) {
+      suppressWarnings(dir.create(im, recursive = TRUE))
+    }
+  }
+  if (grepl("public[/\\\\]docs$", wd)) {
+    im <- file.path(wd, "images")
+    if (!dir.exists(im)) suppressWarnings(dir.create(im, recursive = TRUE))
+  }
+
+  hq <- if (nzchar(hint)) paste0("\n\n> **What to show in the screenshot:** ", hint, "\n") else ""
+
+  if (!is.na(disk)) {
+    knitr::asis_output(paste0(hq, "\n\n![", caption, "](", rel, "){width=92%}\n\n"))
+    return(invisible(TRUE))
+  }
+
+  ph <- paste0(
+    "\n\n::: {.border .rounded .p-3}\n",
+    "**Screenshot placeholder** — add **`psc-pvp-dashboard/public/docs/images/", fname, "`** ",
+    "(from the repository root) or **`images/", fname,
+    "`** beside **`user-guide.qmd`** if you are already in **`public/docs`**.\n\n",
+    "::: {.small .text-muted}",
+    "Exact filename: **`", fname, "`**",
+    ":::\n:::"
+  )
+
+  knitr::asis_output(paste0(
+    hq,
+    "\n\n::: {.callout-warning appearance='minimal'}\n\n",
+    "**Screenshot missing.** Save as **`psc-pvp-dashboard/public/docs/images/", fname, "`** from the ",
+    "**repository root** (or **`public/docs/images/", fname,
+    "`** if your terminal’s working folder is **`psc-pvp-dashboard`**), ",
+    "or **`images/", fname,
+    "`** next to **`user-guide.qmd`** when rendering from **`public/docs`**. Render again.\n\n",
+    ":::\n\n",
+    ph,
+    "\n\n"
+  ))
+  invisible(FALSE)
+}
+```
+
+::: {.callout-tip}
+### Produce `user-guide.html`
+
+1.  Install [Quarto](https://quarto.org/docs/get-started/) **and [R](https://cran.r-project.org/)**.
+2.  Copy PNG or JPEG screenshots into **`psc-pvp-dashboard/public/docs/images/`**, using filenames from the cheat-sheet at the bottom (or rename your files).
+3.  From the **repository root**, run **`quarto render psc-pvp-dashboard/public/docs/user-guide.qmd`** — or **`cd psc-pvp-dashboard/public/docs`** then **`quarto render user-guide.qmd`**.
+4.  Open **`psc-pvp-dashboard/public/docs/user-guide.html`** in a browser. **`embed-resources: true`** in this file packs theme, **`styles.css`**, scripts, and all images into **that single HTML file** — you do not need a separate `_files` folder or **`images/`** next to it when emailing or uploading the guide.
+
+The app’s **Update guide** link already points at **`docs/user-guide.html`** under **`public/docs/`**; commit the refreshed **`user-guide.html`** when you push the site.
+:::
+
+## What this covers
+
+Updating the internet dashboard using **Excel** (**`ministries_pvp.xlsx`**, **`data`** sheet) and **GitHub Desktop**. No Git commands or coding required.
+
+**Example site:** [mag-services.github.io/psc-pvp-dashboard/](https://mag-services.github.io/psc-pvp-dashboard/)
+
+## Plain vocabulary
+
+| Term       | Meaning                                          |
+|------------|--------------------------------------------------|
+| GitHub     | ICT’s online folder for official files.          |
+| Repository | One project folder on GitHub.                    |
+| Clone      | One-time download onto your laptop.              |
+| Commit     | Saves a labelled change in Desktop.              |
+| Push       | Sends that save to GitHub so the web build runs. |
+
+## Live dashboard screenshot
+
+Below is how the published site summary usually looks once data is deployed. Use it to confirm you’re updating the correct product after a push.
+
+![](images/intro-01-live-dashboard-overview.png)
+
+## Software (install once)
+
+You only need ordinary office and Git tooling; no command line required for the steps in this guide.
+
+- **Excel**
+- **GitHub Desktop** — [desktop.github.com](https://desktop.github.com/)
+- **GitHub** account — your team may invite you to the repo
+
+Download GitHub Desktop from the official page, install it, then sign in with the GitHub account your organisation uses so you can clone and push updates.
+
+```{r}
+#| label: fig-first-01
+shot(
+  "first-01-download-github-desktop.png",
+  "GitHub Desktop download website",
+  hint = "The GitHub Desktop product page showing the prominent download button."
+)
+```
+
+```{r}
+#| label: fig-first-02
+shot(
+  "first-02-sign-in-to-github.png",
+  "Sign-in screen in GitHub Desktop",
+  hint = "GitHub Desktop sign-in screen (browser or embedded flow) showing you are authenticated."
+)
+```
+
+# First-time only {.unnumbered}
+
+::: callout-note
+Skip if the dashboard repository already appears in the left sidebar of GitHub Desktop.
+:::
+
+## Step A — File → Clone repository
+
+In GitHub Desktop, open the **File** menu and choose **Clone repository**. This starts the one‑time download of the dashboard project folder to your laptop.
+
+```{r}
+#| label: fig-first-03
+shot(
+  "first-03-file-clone-repository.png",
+  "File menu highlighting Clone repository",
+  hint = "**File → Clone repository** with the Clone dialog about to appear."
+)
+```
+
+## Step B — URL & local folder, then Clone
+
+Paste the HTTPS URL your ICT team supplied (or pick the repo under the **GitHub.com** tab), choose a sensible local folder, then click **Clone**. Wait until the download finishes — you only do this once per machine unless you delete the clone.
+
+```{r}
+#| label: fig-first-04
+shot(
+  "first-04-clone-dialog-url-path.png",
+  "Clone repository dialog completed",
+  hint = "Clone dialog filled in: repository URL/path and local folder, **Clone** ready to click."
+)
+```
+
+## Step C — Repository open in Desktop
+
+When cloning completes, GitHub Desktop should show the dashboard repository selected in the left sidebar and an empty **History** or **Changes** view. You’ll use this same screen for every data refresh.
+
+```{r}
+#| label: fig-first-05
+shot(
+  "first-05-repository-open-in-desktop.png",
+  "Correct repository highlighted in sidebar",
+  hint = "Left sidebar: correct repo name selected; main content shows the repo is open (no errors)."
+)
+```
+
+# Every refresh of data {.unnumbered}
+
+## Step 1 — Pick the dashboard repository
+
+Open GitHub Desktop and click the dashboard repository name in the **left sidebar** so you’re not editing the wrong project.
+
+```{r}
+#| label: fig-update-01
+shot(
+  "update-01-select-repository-left-sidebar.png",
+  "Repository selected",
+  hint = "Left sidebar with the PSC / PVP dashboard repository highlighted."
+)
+```
+
+## Step 2 — Current branch should be **main**
+
+Check the branch control (usually **Current branch**) shows **`main`** (or the branch your ICT team designates). Editing on the wrong branch can block your update from appearing on the public site.
+
+```{r}
+#| label: fig-update-02
+shot(
+  "update-02-current-branch-main.png",
+  "Dropdown shows Current branch · main",
+  hint = "Branch menu or label clearly showing **main** (or the agreed default branch)."
+)
+```
+
+## Step 3 — Repository → Show in Explorer (Windows) or Show in Finder (Mac)
+
+Use the **Repository** menu to reveal the cloned folder on disk. Always open Excel from **this** folder so GitHub Desktop can see your save. On a typical **Windows** PC the clone is often under **`Documents`** — for example **`Documents\spsc-pvp-dashboard`** — but the path matches whatever folder you picked when you first cloned.
+
+```{r}
+#| label: fig-update-03
+shot(
+  "update-03-menu-repository-show-in-explorer.png",
+  "Show in Explorer chosen",
+  hint = "**Repository → Show in Explorer** (or Finder) with the menu path visible."
+)
+```
+
+## Step 4 — Open `public\data` · find **`ministries_pvp.xlsx`**
+
+In the window that opens, open **`public`**, then **`data`**, and locate **`ministries_pvp.xlsx`**. On Windows you may first see something like **`Documents\spsc-pvp-dashboard\`** (or another root name such as **`psc-pvp-dashboard`**, depending on how you cloned) — open folders until you reach **`public\data`**.
+
+```{r}
+#| label: fig-update-04
+shot(
+  "update-04-file-explorer-public-data-folder.png",
+  "Explorer listing public/data/ministries_pvp.xlsx",
+  hint = "File Explorer/Finder listing **`public\\data`** with **`ministries_pvp.xlsx`** visible."
+)
+```
+
+## Step 5 — Open workbook in Excel
+
+Double‑click **`ministries_pvp.xlsx`** so Excel loads the **same copy** Desktop just showed you. Opening a copy from email or Downloads will not update GitHub Desktop.
+
+```{r}
+#| label: fig-update-05
+shot(
+  "update-05-excel-open-ministries-workbook.png",
+  "Excel workbook open",
+  hint = "Excel window title or tab showing **`ministries_pvp`** (correct file name)."
+)
+```
+
+## Step 6 — Click **data** sheet tab
+
+At the bottom of Excel, switch to the **`data`** worksheet. Other sheets may exist — the dashboard reads this tab only.
+
+```{r}
+#| label: fig-update-06
+shot(
+  "update-06-excel-click-data-sheet-tab.png",
+  "data worksheet tab highlighted",
+  hint = "Sheet tabs row with **`data`** selected (not another sheet)."
+)
+```
+
+## Step 7 — Edit under header row • keep row 1 titles
+
+Edit or add rows **below** row **1**. Do **not** rename, delete, merge, or reorder the header row — column names must stay exactly as supplied or the site may fail to load.
+
+```{r}
+#| label: fig-update-07
+shot(
+  "update-07-excel-edit-data-rows.png",
+  "Spreadsheet with edits under headers",
+  hint = "Grid with row 1 headers intact; example edits in rows 2+ (no header changes)."
+)
+```
+
+## Step 8 — Save (Ctrl + S) · close Excel
+
+Press **Ctrl + S** (Windows) or **⌘ + S** (Mac) to save, wait for any “Saving…” to finish, then fully **close Excel**. An unsaved or still‑open file can prevent Desktop from picking up changes.
+
+```{r}
+#| label: fig-update-08
+shot(
+  "update-08-excel-save-and-close.png",
+  "Save / Saved indicator optional",
+  hint = "Optional: Excel status bar **Saved**, or Save icon; workbook can also be closed for the next step."
+)
+```
+
+## Step 9 — GitHub Desktop **Changes**
+
+Return to GitHub Desktop and select the **Changes** tab (or equivalent). **`ministries_pvp.xlsx`** should appear as a modified file with a green/red diff summary.
+
+```{r}
+#| label: fig-update-09
+shot(
+  "update-09-github-desktop-changes-listed.png",
+  "Changes list shows ministries_pvp.xlsx",
+  hint = "**Changes** list including **`ministries_pvp.xlsx`** with file path under **`public/data/`**."
+)
+```
+
+::: callout-warning
+Nothing listed? Excel was probably saved elsewhere — redo Steps 3→5 opening from Explorer only.
+:::
+
+## Step 10 — Summary & **Commit to main**
+
+In the bottom **Summary** box, type a short message (for example `Update vacant posts data` or the date). Click **Commit to main** to record the change **locally** — you still need to push for the website to update.
+
+```{r}
+#| label: fig-update-10
+shot(
+  "update-10-summary-and-commit-to-main.png",
+  "Filled summary plus Commit button",
+  hint = "Summary field filled in and **Commit to main** ready; changes still local until push."
+)
+```
+
+## Step 11 — **Push origin**
+
+Click **Push origin** (or **Push** if your layout differs) to upload the commit to GitHub. This triggers the automated build that publishes the dashboard — allow **about 2–5 minutes** after that succeeds before the live site reliably shows your edits (**longer** if you changed a **lot** of data); Steps **12–14** walk through confirming the deploy and refreshing your browser.
+
+```{r}
+#| label: fig-update-11
+shot(
+  "update-11-push-origin.png",
+  "Push origin button highlighted",
+  hint = "**Push origin** visible and clickable after a successful commit."
+)
+```
+
+## Step 12 — github.com • **Actions** • green ✔
+
+On **github.com**, open the repository **Actions** tab and wait for the latest workflow run to show a **green check** (success). A red X means the deploy failed — contact ICT with the log link before telling stakeholders the site is updated.
+
+Even after green ✔ finishes, give the published site **about 2–5 minutes** before expecting your changes everywhere; **large updates** (many rows or a big workbook) tend toward the **longer** end of that range.
+
+```{r}
+#| label: fig-update-12
+shot(
+  "update-12-github-actions-green-check.png",
+  "Successful GitHub Pages workflow row",
+  hint = "**Actions** list with **GitHub Pages** (or site deploy) workflow row and green success icon."
+)
+```
+
+## Step 13 — Open live dashboard
+
+Open the public dashboard URL in your browser. If the address is bookmarked, use that; otherwise use the link your team shared (for example the **Example site** link at the top of this guide).
+
+If headlines or tables still reflect the old export, wait the **same 2–5 minute window** after Actions went green (see Step 12), then use Step 14 to hard‑refresh — caching can make an updated site **look** stale for one more reload cycle.
+
+```{r}
+#| label: fig-update-13
+shot(
+  "update-13-live-dashboard-in-browser.png",
+  "Dashboard after deploy",
+  hint = "Live dashboard in browser after deploy — numbers or dates reflect your latest commit."
+)
+```
+
+## Step 14 — Hard refresh (**Ctrl + F5** / Cmd ⇧ R)
+
+Browsers cache files. Once you’ve allowed enough time after deploy (typically **2–5 minutes**, more for heavier updates — Step 12), force a reload: **Ctrl + F5** (Windows/Linux) or **Cmd + Shift + R** (Mac). Then recheck headlines and detail tables.
+
+```{r}
+#| label: fig-update-14
+shot(
+  "update-14-hard-refresh-ctrl-f5.png",
+  "Reminder to Ctrl+F5 in browser",
+  hint = "Optional: browser window with cache refresh shortcut callout or visible refreshed content."
+)
+```
+
+## Privacy {.unnumbered}
+
+On public GitHub Pages the **`.xlsx`** can be downloaded by anyone — only publish data your organisation clears.
+
+------------------------------------------------------------------------
+
+## Excel headers (never rename row 1)
+
+| Column                | Meaning             |
+|-----------------------|---------------------|
+| MINISTRY              | Blank ⇒ row ignored |
+| DEPARTMENT            | Department          |
+| PRIORITY VACANT POSTS | Post title shown    |
+| POST NUMBER           | ID                  |
+| SALARY SCALE          | Scale label         |
+| ANNUAL SALARY         | Numeric             |
+| RECRUITMENT STATUS    | Controlled list     |
+
+## Recruitment statuses
+
+Unknown Status · Vacant · Advertisement · Recruitment Process · Awaits Commission Decision · Occupied (Acting) · Occupied (Contract) · Filled · Filled (Internship) · Filled (Temporary).
+
+Empty cell ⇒ **Unknown Status**. Headline KPIs treat **Vacant** + **Unknown Status** together as backlog.
+
+------------------------------------------------------------------------
+
+## OPTIONAL — ICT / developers
+
+Dashboard loads **`./data/ministries_pvp.xlsx`** (browser). Source in repo **`public/data/ministries_pvp.xlsx`**.
+
+``` text
+psc-pvp-dashboard/public/data/ministries_pvp.xlsx
+```
+
+------------------------------------------------------------------------
+
+## Screenshot filename cheat‑sheet {.small}
+
+Paste PNGs (`psc-pvp-dashboard/public/docs/images/`) matching:
+
+`intro-01-live-dashboard-overview.png` `first-01-download-github-desktop.png` `first-02-sign-in-to-github.png` `first-03-file-clone-repository.png` `first-04-clone-dialog-url-path.png` `first-05-repository-open-in-desktop.png`
+
+`update-01-select-repository-left-sidebar.png` `update-02-current-branch-main.png` `update-03-menu-repository-show-in-explorer.png` `update-04-file-explorer-public-data-folder.png` `update-05-excel-open-ministries-workbook.png`
+
+`update-06-excel-click-data-sheet-tab.png` `update-07-excel-edit-data-rows.png` `update-08-excel-save-and-close.png` `update-09-github-desktop-changes-listed.png` `update-10-summary-and-commit-to-main.png`
+
+`update-11-push-origin.png` `update-12-github-actions-green-check.png` `update-13-live-dashboard-in-browser.png` `update-14-hard-refresh-ctrl-f5.png`

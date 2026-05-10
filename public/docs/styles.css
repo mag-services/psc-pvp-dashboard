@@ -1,0 +1,10 @@
+/* Optional tweaks for Quarto HTML output */
+main h2 {
+  margin-top: 1.75rem;
+}
+.callout-note {
+  border-left-color: #185fa5;
+}
+.small {
+  font-size: 0.88rem;
+}

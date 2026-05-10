@@ -24,25 +24,18 @@ function MainContent({
       <div className="rounded-md border border-un-border border-l-4 border-l-un-deep bg-un-wash p-4 text-un-fg shadow-un-sm">
         <p className="text-[13px] font-semibold">Could not load dataset</p>
         <p className="mt-1 text-[12px] text-un-secondary">{error}</p>
-        {(error.includes('404') || error.includes('generate-data')) ? (
+        {error.includes('404') || error.includes('ministries_pvp.xlsx') ? (
           <p className="mt-3 text-[12px] leading-relaxed text-un-secondary">
-            Only <strong className="font-semibold text-un-fg">CSV</strong> is loaded in the browser. If you committed{' '}
+            The app loads{' '}
             <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
-              ministries_pvp.xlsx
+              public/data/ministries_pvp.xlsx
             </code>{' '}
-            under{' '}
+            (sheet tab <strong className="font-semibold text-un-fg">data</strong>) from the deployed site. Ensure that
+            file exists in the repo before build and appears under{' '}
             <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
-              public/data/
+              dist/data/
             </code>{' '}
-            without running the export, run{' '}
-            <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
-              npm run generate-data
-            </code>{' '}
-            locally and commit the resulting{' '}
-            <code className="rounded border border-un-border bg-un-surface px-1 py-0 font-mono text-[11px]">
-              ministries_pvp.csv
-            </code>{' '}
-            (or let GitHub Actions regenerate it when that step is enabled).
+            after <code className="font-mono text-[11px]">npm run build</code>.
           </p>
         ) : null}
       </div>
@@ -62,11 +55,12 @@ function MainContent({
       <div className="rounded-md border border-un-border border-l-4 border-l-primary bg-un-wash p-4 text-un-fg shadow-un-sm">
         <p className="text-[13px] font-semibold">No data rows</p>
         <p className="mt-1 text-[12px] text-un-secondary">
-          Regenerate CSV with{' '}
+          Replace{' '}
           <code className="rounded border border-un-border bg-un-surface px-1.5 py-0.5 font-mono text-[11px]">
-            npm run generate-data
+            public/data/ministries_pvp.xlsx
           </code>{' '}
-          after updating the Excel file.
+          (sheet <code className="rounded border border-un-border bg-un-surface px-1.5 py-0.5 font-mono text-[11px]">data</code>)
+          and redeploy.
         </p>
       </div>
     );

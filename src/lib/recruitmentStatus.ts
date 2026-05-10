@@ -1,5 +1,5 @@
 /**
- * Canonical recruitment status values from the source workbook (`ministries_pvp.xlsx`, sheet `data`).
+ * Canonical recruitment status values from the workbook (`public/data/ministries_pvp.xlsx`, sheet `data`).
  * Used for chart/matrix column order; any other strings in the extract are appended alphabetically.
  */
 export const RECRUITMENT_STATUS_ORDER: readonly string[] = [
