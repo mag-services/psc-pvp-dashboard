@@ -15,7 +15,7 @@ export default defineConfig({
         'icons/pwa-192.png',
         'icons/pwa-512.png',
         'icons/apple-touch-icon-180.png',
-        'data/ministries_pvp.xlsx',
+        'data/ministries_pvp.json',
       ],
       manifest: {
         name: 'OPSC — Priority Vacant Posts',
@@ -36,7 +36,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,xlsx,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,json,woff2}'],
         navigateFallback: 'index.html',
       },
       devOptions: {

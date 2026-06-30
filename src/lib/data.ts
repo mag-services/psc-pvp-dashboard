@@ -24,32 +24,16 @@ function normalizeExcelKeys(row: Record<string, unknown>): Record<string, string
 
 export async function loadVacancyRows(signal?: AbortSignal): Promise<VacancyRow[]> {
   const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-  const url = `${base}data/ministries_pvp.xlsx`;
+  const url = `${base}data/ministries_pvp.json`;
   const res = await fetch(url, { signal });
   if (!res.ok) {
     const hint =
       res.status === 404
-        ? ' Commit public/data/ministries_pvp.xlsx (sheet tab named data) alongside the built site.'
+        ? ' Run `npm run build` to generate public/data/ministries_pvp.json from the xlsx file.'
         : '';
     throw new Error(`Failed to load data (${res.status}) ${url}.${hint}`);
   }
-  const buf = await res.arrayBuffer();
-  const XLSX = await import('xlsx');
-  const wb = XLSX.read(buf, { type: 'array' });
-  const sheetName = wb.SheetNames.find((n) => n.trim().toLowerCase() === 'data');
-  if (!sheetName) {
-    throw new Error(
-      `Worksheet "data" not found (case-insensitive match). Sheets present: ${wb.SheetNames.join(', ') || '(none)'}`,
-    );
-  }
-  const ws = wb.Sheets[sheetName];
-  if (!ws) throw new Error(`Worksheet "${sheetName}" is missing from the workbook.`);
-
-  const rawRows = XLSX.utils.sheet_to_json<Record<string, unknown>>(ws, {
-    raw: false,
-    defval: '',
-    blankrows: false,
-  });
+  const rawRows: Record<string, unknown>[] = await res.json();
 
   return rawRows
     .map((row) => normalizeExcelKeys(row))
